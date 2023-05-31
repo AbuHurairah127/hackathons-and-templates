@@ -8,12 +8,12 @@ const Products = () => {
   const settings = {
     infinite: true,
     speed: 500,
-    arrows: true,
     slidesToShow: 3,
     slidesToScroll: 1,
     initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 1500,
+    arrows: false,
     responsive: [
       {
         breakpoint: 1024,
@@ -22,10 +22,10 @@ const Products = () => {
           slidesToScroll: 1,
           initialSlide: 2,
           infinite: true,
-          dots: true,
           centerMode: true,
           autoplay: true,
           autoplaySpeed: 1000,
+          arrows: false,
         },
       },
       {
@@ -35,10 +35,10 @@ const Products = () => {
           slidesToScroll: 1,
           initialSlide: 2,
           infinite: true,
-          dots: true,
           centerMode: true,
           autoplay: true,
           autoplaySpeed: 1000,
+          arrows: false,
         },
       },
     ],

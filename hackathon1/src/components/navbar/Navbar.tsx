@@ -64,11 +64,17 @@ const Navbar = () => {
           0
         </span>
       </div>
-      <div className="lg:hidden absolute right-5 z-50">
+      <div
+        className={
+          !isNavbar
+            ? "lg:hidden absolute right-5 z-50 "
+            : "lg:hidden fixed right-5 z-50"
+        }
+      >
         <Hamburger toggled={isNavbar} onToggle={() => setIsNavbar(!isNavbar)} />{" "}
       </div>
       {isNavbar && (
-        <div className="flex flex-col w-screen h-screen absolute top-0 left-0 p-6 bg-white">
+        <div className="flex flex-col w-screen h-screen fixed top-0 left-0 p-6 bg-white z-40">
           <Image src={logo} alt="logo" priority />
           <div className="flex flex-col h-full justify-center items-center">
             <div className="p-2 rounded-full bg-gray-300 flex w-fit relative">
