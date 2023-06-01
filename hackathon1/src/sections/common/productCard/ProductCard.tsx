@@ -9,7 +9,7 @@ import {
 
 const ProductCard = () => {
   return (
-    <Card className="rounded-none  h-[31rem]">
+    <Card className="rounded-none  h-96">
       <CardHeader>
         <CardTitle>Card Title</CardTitle>
         <CardDescription>Card Description</CardDescription>

@@ -3,7 +3,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="grid grid-cols-[repeat(1,1fr)] md:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)] xl:grid-cols-[repeat(4,1fr)] lg:gap-8 xl:gap-12 justify-center items-center max-w-screen mx-12 lg:mx-24 my-8">
+    <div className="grid grid-cols-[repeat(1,1fr)] md:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)] xl:grid-cols-[repeat(4,1fr)] gap-4 justify-center items-center max-w-screen mx-12 lg:mx-24 my-8">
       <ProductCard /> <ProductCard /> <ProductCard /> <ProductCard />{" "}
     </div>
   );

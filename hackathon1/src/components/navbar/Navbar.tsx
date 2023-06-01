@@ -26,22 +26,22 @@ const Navbar = () => {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem className="space-x-5">
-              <Link href={""} legacyBehavior passHref>
+              <Link href={"/female"} legacyBehavior passHref>
                 <NavigationMenuLink className={sora.className}>
                   Female
                 </NavigationMenuLink>
               </Link>
-              <Link href={""} legacyBehavior passHref>
+              <Link href={"/male"} legacyBehavior passHref>
                 <NavigationMenuLink className={sora.className}>
                   Male
                 </NavigationMenuLink>
               </Link>
-              <Link href={""} legacyBehavior passHref>
+              <Link href={"/kids"} legacyBehavior passHref>
                 <NavigationMenuLink className={sora.className}>
                   Kids
                 </NavigationMenuLink>
               </Link>
-              <Link href={""} legacyBehavior passHref>
+              <Link href={"/allProducts"} legacyBehavior passHref>
                 <NavigationMenuLink className={sora.className}>
                   All Products
                 </NavigationMenuLink>
@@ -86,22 +86,22 @@ const Navbar = () => {
             <NavigationMenu className="max-h-40">
               <NavigationMenuList>
                 <NavigationMenuItem className="space-y-2 flex flex-col text-lg text-center h-32">
-                  <Link href={""} legacyBehavior passHref>
+                  <Link href={"/female"} legacyBehavior passHref>
                     <NavigationMenuLink className={sora.className}>
                       Female
                     </NavigationMenuLink>
                   </Link>
-                  <Link href={""} legacyBehavior passHref>
+                  <Link href={"/male"} legacyBehavior passHref>
                     <NavigationMenuLink className={sora.className}>
                       Male
                     </NavigationMenuLink>
                   </Link>
-                  <Link href={""} legacyBehavior passHref>
+                  <Link href={"/kids"} legacyBehavior passHref>
                     <NavigationMenuLink className={sora.className}>
                       Kids
                     </NavigationMenuLink>
                   </Link>
-                  <Link href={""} legacyBehavior passHref>
+                  <Link href={"/allProducts"} legacyBehavior passHref>
                     <NavigationMenuLink className={sora.className}>
                       All Products
                     </NavigationMenuLink>
