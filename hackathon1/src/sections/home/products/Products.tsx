@@ -7,12 +7,12 @@ import Slider from "react-slick";
 const Products = () => {
   const settings = {
     infinite: true,
-    speed: 500,
-    slidesToShow: 3,
+    speed: 3000,
+    slidesToShow: 4,
     slidesToScroll: 1,
     initialSlide: 0,
     autoplay: true,
-    autoplaySpeed: 1500,
+    autoplaySpeed: 0,
     arrows: false,
     responsive: [
       {
@@ -24,7 +24,7 @@ const Products = () => {
           infinite: true,
           centerMode: true,
           autoplay: true,
-          autoplaySpeed: 1000,
+          autoplaySpeed: 2000,
           arrows: false,
         },
       },
@@ -37,7 +37,7 @@ const Products = () => {
           infinite: true,
           centerMode: true,
           autoplay: true,
-          autoplaySpeed: 1000,
+          autoplaySpeed: 2000,
           arrows: false,
         },
       },
@@ -53,11 +53,24 @@ const Products = () => {
       </h3>
       <div className="flex lg:space-x-8 h-[60vh] w-full flex-wrap justify-around">
         <Slider {...settings} className="w-full">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          <div className=" w-[90%] md:w-96">
+            <ProductCard />
+          </div>
+          <div className=" w-[90%] md:w-96">
+            <ProductCard />
+          </div>
+          <div className=" w-[90%] md:w-96">
+            <ProductCard />
+          </div>
+          <div className=" w-[90%] md:w-96">
+            <ProductCard />
+          </div>
+          <div className=" w-[90%] md:w-96">
+            <ProductCard />
+          </div>
+          <div className=" w-[90%] lg:max-w-96">
+            <ProductCard />
+          </div>
         </Slider>
       </div>
     </div>

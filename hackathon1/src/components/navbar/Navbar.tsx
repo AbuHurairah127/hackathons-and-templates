@@ -55,7 +55,7 @@ const Navbar = () => {
         <input
           type="search"
           placeholder="What you are looking for"
-          className="rounded-r ml-2 lg:w-96 text-xs py-0.5 placeholder:text-xs placeholder:font-extralight"
+          className="rounded-r ml-2 xl:w-96 text-xs py-0.5 placeholder:text-xs placeholder:font-extralight"
         />
       </div>
       <div className="p-2.5 rounded-full bg-gray-300 lg:flex hidden">
