@@ -13,7 +13,10 @@ export async function fetchData() {
     // Define your query
     const query = `*[_type == "product"]{
       _id,
-      name
+      name,
+      category,
+      price,
+      images
     }`;
 
     // Fetch data using the query
