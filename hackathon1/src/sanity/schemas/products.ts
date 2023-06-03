@@ -35,6 +35,22 @@ export const PRODUCTS_SCHEMA = {
       of: [{ type: "image" }],
     },
     {
+      name: "gender",
+      title: "Gender",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Male", value: "male" },
+          { title: "Female", value: "female" },
+          { title: "Kids", value: "kids" },
+        ],
+        layout: "radio",
+        direction: "horizontal",
+      },
+    },
+    { name: "category", title: "Product Category", type: "string" },
+    {
       name: "sizes",
       title: "Available Sizes",
       type: "array",

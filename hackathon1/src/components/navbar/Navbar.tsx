@@ -21,7 +21,11 @@ const Navbar = () => {
         "flex justify-between items-center px-5 lg:px-20 h-24 my-2 mx-8"
       }
     >
-      {!isNavbar && <Image src={logo} alt="logo" priority />}
+      {!isNavbar && (
+        <Link href={"/"}>
+          <Image src={logo} alt="logo" priority />
+        </Link>
+      )}
       <div className="lg:flex hidden">
         <NavigationMenu>
           <NavigationMenuList>
