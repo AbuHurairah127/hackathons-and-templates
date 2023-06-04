@@ -28,7 +28,6 @@ export async function fetchData(docs_quantity?: number) {
       const data = await client.fetch(query);
 
       // Process the fetched data
-      console.log("Fetched data:", data);
 
       // Return or further process the data as needed
       return data;
@@ -51,7 +50,6 @@ export async function fetchData(docs_quantity?: number) {
       const data = await client.fetch(query, { docs_quantity });
 
       // Process the fetched data
-      console.log("Fetched data:", data);
 
       // Return or further process the data as needed
       return data;
@@ -62,10 +60,6 @@ export async function fetchData(docs_quantity?: number) {
   }
 }
 export async function fetchGenderBasedData(gender: string) {
-  console.log(
-    "🚀 ~ file: sanity-utils.ts:39 ~ fetchGenderBasedData ~ gender:",
-    gender
-  );
   try {
     // Define your query
     const query = `*[_type == "product" && $gender in gender]{
@@ -80,7 +74,6 @@ export async function fetchGenderBasedData(gender: string) {
     const data = await client.fetch(query, { gender });
 
     // Process the fetched data
-    console.log("Fetched data:", data);
 
     // Return or further process the data as needed
     return data;
