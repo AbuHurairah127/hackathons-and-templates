@@ -1,10 +1,13 @@
 "use client";
-import ProductCard from "@/sections/common/productCard/ProductCard";
+import ProductCard, {
+  ProductCardData,
+} from "@/sections/common/productCard/ProductCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { fetchData } from "@/sanity/sanity-utils";
 
-const Products = () => {
+const Products = async () => {
   const settings = {
     infinite: true,
     speed: 3000,
@@ -43,6 +46,7 @@ const Products = () => {
       },
     ],
   };
+  const data = await fetchData(5);
   return (
     <div className="h-[85vh] lg:min-h-screen max-w-screen flex flex-col space-y-5 justify-center items-center lg:px-24">
       <h4 className="text-[#0000ff] uppercase font-bold text-center">
@@ -53,24 +57,11 @@ const Products = () => {
       </h3>
       <div className="flex lg:space-x-8 h-[60vh] w-full flex-wrap justify-around">
         <Slider {...settings} className="w-full">
-          <div className=" w-[90%] md:w-96">
-            <ProductCard />
-          </div>
-          <div className=" w-[90%] md:w-96">
-            <ProductCard />
-          </div>
-          <div className=" w-[90%] md:w-96">
-            <ProductCard />
-          </div>
-          <div className=" w-[90%] md:w-96">
-            <ProductCard />
-          </div>
-          <div className=" w-[90%] md:w-96">
-            <ProductCard />
-          </div>
-          <div className=" w-[90%] lg:max-w-96">
-            <ProductCard />
-          </div>
+          {data.map((product: ProductCardData, i: number) => (
+            <div className=" w-[90%] md:w-96" key={i}>
+              <ProductCard product={product} />
+            </div>
+          ))}
         </Slider>
       </div>
     </div>

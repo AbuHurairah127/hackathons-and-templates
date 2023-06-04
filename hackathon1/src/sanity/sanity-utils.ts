@@ -11,10 +11,11 @@ const builder = imageUrlBuilder(client);
 
 export const urlFor = (source: any) => builder.image(source);
 // Function to fetch data from Sanity
-export async function fetchData() {
-  try {
-    // Define your query
-    const query = `*[_type == "product"]{
+export async function fetchData(docs_quantity?: number) {
+  if (!docs_quantity) {
+    try {
+      // Define your query
+      const query = `*[_type == "product"]{
       _id,
       name,
       category,
@@ -23,17 +24,41 @@ export async function fetchData() {
       gender
     }`;
 
-    // Fetch data using the query
-    const data = await client.fetch(query);
+      // Fetch data using the query
+      const data = await client.fetch(query);
 
-    // Process the fetched data
-    console.log("Fetched data:", data);
+      // Process the fetched data
+      console.log("Fetched data:", data);
 
-    // Return or further process the data as needed
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle error scenarios
+      // Return or further process the data as needed
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error scenarios
+    }
+  } else {
+    try {
+      // Define your query
+      const query = `*[_type == "product"]{
+            _id,
+            name,
+            category,
+            price,
+            "images":images[0]
+        }|order(_createdAt desc)[0...$docs_quantity]`;
+
+      // Fetch data using the query and pass the gender as a parameter
+      const data = await client.fetch(query, { docs_quantity });
+
+      // Process the fetched data
+      console.log("Fetched data:", data);
+
+      // Return or further process the data as needed
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error scenarios
+    }
   }
 }
 export async function fetchGenderBasedData(gender: string) {
