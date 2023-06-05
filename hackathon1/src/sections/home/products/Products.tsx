@@ -6,8 +6,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { fetchData } from "@/sanity/sanity-utils";
+import { useEffect, useState } from "react";
 
-const Products = async () => {
+const Products = () => {
   const settings = {
     infinite: true,
     speed: 3000,
@@ -46,8 +47,16 @@ const Products = async () => {
       },
     ],
   };
-  let data = [];
-  data = await fetchData(5);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      const fetchedData = await fetchData(5);
+      setData(fetchedData);
+    };
+
+    fetchDataAsync();
+  }, []);
+
   return (
     <div className="h-[85vh] lg:min-h-screen max-w-screen flex flex-col space-y-5 justify-center items-center lg:px-24">
       <h4 className="text-[#0000ff] uppercase font-bold text-center">
@@ -59,9 +68,7 @@ const Products = async () => {
       <div className="flex lg:space-x-8 h-[60vh] w-full flex-wrap justify-around">
         <Slider {...settings} className="w-full">
           {data.map((product: ProductCardData, i: number) => (
-            // <div className=" w-[90%] md:w-96" key={i}>
             <ProductCard key={i} product={product} />
-            // </div>
           ))}
         </Slider>
       </div>
