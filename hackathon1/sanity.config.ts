@@ -1,4 +1,5 @@
 import { schemas } from "@/sanity/schemas";
+import { createImprovedAction } from "@/sanity/webhooks/publishAction";
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 export const config = defineConfig({
@@ -10,4 +11,12 @@ export const config = defineConfig({
   useCdn: true,
   plugins: [deskTool()],
   schema: { types: schemas },
+  document: {
+    actions: (prev) =>
+      prev.map((originalAction) =>
+        originalAction.action === "publish"
+          ? createImprovedAction(originalAction)
+          : originalAction
+      ),
+  },
 });

@@ -63,10 +63,12 @@ const Navbar = () => {
         />
       </div>
       <div className="p-2.5 rounded-full bg-gray-300 lg:flex hidden">
-        <ShoppingCart className="relative" />
-        <span className="absolute top-[1.5rem] right-[6.5rem] h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
-          0
-        </span>
+        <Link href={"/cart"} className="">
+          <ShoppingCart className="relative" />
+          <span className="absolute top-[1.5rem] right-[6.5rem] h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
+            0
+          </span>
+        </Link>
       </div>
       <div
         className={
