@@ -17,22 +17,26 @@ export const PRODUCTS_SCHEMA = {
       name: "name",
       title: "Product Name",
       type: "string",
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: "description",
       title: "Product Description",
       type: "text",
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: "price",
       title: "Price",
       type: "number",
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: "images",
       title: "Images",
       type: "array",
       of: [{ type: "image" }],
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: "gender",
@@ -48,6 +52,7 @@ export const PRODUCTS_SCHEMA = {
         layout: "radio",
         direction: "horizontal",
       },
+      validation: (Rule: any) => Rule.required(),
     },
     { name: "category", title: "Product Category", type: "string" },
     {
@@ -62,16 +67,19 @@ export const PRODUCTS_SCHEMA = {
       options: {
         list: SIZES,
       },
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: "currentStock",
       title: "Current Stock",
       type: "number",
+      validation: (Rule: any) => Rule.required(),
     },
     {
       name: "availability",
       title: "Availability",
       type: "boolean",
+      validation: (Rule: any) => Rule.required(),
     },
   ],
 };

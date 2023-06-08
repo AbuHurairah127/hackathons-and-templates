@@ -5,7 +5,7 @@ export function createImprovedAction(originalPublishAction: any) {
       ...originalResult,
       onHandle: () => {
         // Add our custom functionality
-        console.log("Hello world!");
+        console.log("Hello world!", originalResult, props.draft.gender);
         // then delegate to original handler
         originalResult.onHandle();
       },
