@@ -1,7 +1,3 @@
-import { fetchData, fetchGenderBasedData } from "@/sanity/sanity-utils";
-import ProductCard, {
-  ProductCardData,
-} from "@/sections/common/productCard/ProductCard";
 import ProductCardLoader from "@/sections/common/productCard/ProductCardLoader";
 import React from "react";
 
