@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function createImprovedAction(originalPublishAction: any) {
   const BetterAction = (props: any) => {
     const originalResult = originalPublishAction(props);
@@ -6,6 +8,7 @@ export function createImprovedAction(originalPublishAction: any) {
       onHandle: () => {
         // Add our custom functionality
         console.log("Hello world!", originalResult, props.draft.gender);
+        axios.get("/api/revalidate");
         // then delegate to original handler
         originalResult.onHandle();
       },
