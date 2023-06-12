@@ -28,4 +28,4 @@ const page = async ({ params }: { params: { name: string } }) => {
 
 export default page;
 export const dynamicParams = false;
-export const revalidate = 0;
+export const revalidate = "force-dynamic";
