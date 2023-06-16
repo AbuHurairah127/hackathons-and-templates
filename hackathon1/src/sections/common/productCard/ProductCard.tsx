@@ -17,7 +17,7 @@ export type ProductCardData = {
 
 const ProductCard = (props: { product?: ProductCardData }) => {
   return (
-    <Card className="rounded-none w-fit  h-96 border-none ">
+    <Card className="rounded-none w-fit  h-96 border-none group hover:scale-110 transition-all duration-1000  cursor-pointer">
       <CardContent className="h-72 overflow-hidden">
         <Image
           src={urlFor(props.product?.images!).url()}

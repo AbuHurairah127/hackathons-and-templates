@@ -42,7 +42,7 @@ const Promotions = () => {
                 $75.00
               </p>
             </div>
-            <Image src={card2} alt={""} />
+            <Image src={card2} alt={""} className="self-center" />
           </div>
           <div className="w-[90vw] md:w-1/2 bg-[#D7D7D9] flex flex-col justify-between max-h-full overflow-hidden">
             <div className="px-4 pt-5">
@@ -52,7 +52,7 @@ const Promotions = () => {
                 $190.00
               </p>
             </div>
-            <Image src={card3} alt={""} />
+            <Image src={card3} alt={""} className="self-center" />
           </div>{" "}
         </div>
       </div>
