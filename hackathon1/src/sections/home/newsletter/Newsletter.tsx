@@ -14,11 +14,15 @@ const Newsletter = () => {
       <p className="text-center text-[#666666] my-6">
         Get the latest information and promo offers directly
       </p>
-      <div className="flex w-full max-w-sm items-center space-x-2">
-        <Input type="email" className="pl-5 rounded-none" placeholder="Email" />
+      <div className="flex w-full sm:max-w-sm items-center space-x-2">
+        <Input
+          type="email"
+          className="pl-5 rounded-none w-[1000px]"
+          placeholder="Email"
+        />
         <Button
           type="submit"
-          className="bg-black rounded-none text-white font-bold w-40 line-clamp-1"
+          className="bg-black rounded-none text-white font-bold w-40 line-clamp-1 flex-shrink-0"
         >
           Get Started
         </Button>

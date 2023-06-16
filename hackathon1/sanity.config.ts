@@ -11,12 +11,4 @@ export const config = defineConfig({
   useCdn: true,
   plugins: [deskTool()],
   schema: { types: schemas },
-  document: {
-    actions: (prev) =>
-      prev.map((originalAction) =>
-        originalAction.action === "publish"
-          ? createImprovedAction(originalAction)
-          : originalAction
-      ),
-  },
 });
