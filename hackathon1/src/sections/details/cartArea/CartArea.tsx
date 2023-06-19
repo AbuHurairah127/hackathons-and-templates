@@ -31,7 +31,7 @@ const CartArea = ({
 }) => {
   const [quantityToBuy, setQuantityToBuy] = useState(1);
   const [sizeToBuy, setSizeToBuy] = useState<string | undefined>(undefined);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   return (
     <>
       <div className="">

@@ -1,5 +1,31 @@
 import { createClient } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
+
+type Size = "XS" | "S" | "M" | "L" | "XL" | "2XL" | "3XL" | "4XL";
+
+type Gender = "male" | "female" | "kids";
+
+export interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  images: {
+    _type: "image";
+    asset: {
+      _ref: string;
+      _type: "reference";
+    };
+  }[];
+  gender: Gender[];
+  category?: string;
+  sizes: Size[];
+  currentStock: number;
+  availability: boolean;
+}
+
+export type ProductsData = Product[];
+
 // Create a Sanity client
 const client = createClient({
   projectId: process.env.PROJECT_ID!,
@@ -82,3 +108,15 @@ export async function fetchGenderBasedData(gender: string) {
     // Handle error scenarios
   }
 }
+
+export const fetchSingleProduct = async (id: string) => {
+  try {
+    const query = `*[_type == "product"&& _id==$id]`;
+
+    // Fetch data using the query
+    const data = await client.fetch<ProductsData>(query, { id });
+
+    // Return the fetched data
+    return data[0];
+  } catch (error) {}
+};

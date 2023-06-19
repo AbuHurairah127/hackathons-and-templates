@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Button } from "../../../../components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import { fetchSingleProduct } from "@/sanity/sanity-utils";
+import CartArea from "@/sections/details/cartArea/CartArea";
 export const SizeButton = (props: { label: String }) => {
   return (
     <button className="m-5 text-[#666666] font-semibold uppercase">
@@ -8,7 +10,8 @@ export const SizeButton = (props: { label: String }) => {
     </button>
   );
 };
-const page = () => {
+const page = async ({ params }: { params: { id: string } }) => {
+  const data = await fetchSingleProduct(params.id);
   return (
     <div className="">
       <div className="px-14 lg:px-24 py-16 min-h-screen bg-[#F2F3F7] flex flex-col lg:flex-row">
@@ -21,37 +24,20 @@ const page = () => {
           </div>
         </div>
         <div className="w-full lg:w-1/3 mt-12 lg:mt-0">
-          <h3 className="text-2xl font-semibold">lorem Ipsum title</h3>
-          <span className="text-lg font-semibold text-[#888888]">Category</span>
-          <div className="">
-            <h4 className="uppercase font-extrabold mt-12 tracking-wider text-sm">
-              Select Size
-            </h4>
-            <SizeButton label={"xs"} />
-            <SizeButton label={"sm"} />
-            <SizeButton label={"md"} />
-            <SizeButton label={"lg"} />
-          </div>
-          <div className="flex">
-            <h4 className="font-bold mr-8">Quantity:</h4>
-            <div className="flex h-8 items-center">
-              <button className="bg-gray-200 px-3 py-0.5 rounded-full text-3xl font-light">
-                -
-              </button>
-              <span className="mx-5">1</span>
-              <button className="bg-gray-200 px-2.5 py-0.5 rounded-full text-3xl font-light">
-                {" "}
-                +
-              </button>
-            </div>
-          </div>
-          <div className="flex items-center mt-10">
-            <Button className="bg-black text-white text-md font-semibold rounded-none py-5 w-fit md:px-12 mr-8 flex">
-              <ShoppingCart className="mr-2" size={18} />
-              Add to Cart{" "}
-            </Button>
-            <span className="font-bold text-lg">$ 545</span>
-          </div>
+          <h3 className="text-2xl font-semibold">{data?.name}</h3>
+          <span className="text-lg font-semibold text-[#888888]">
+            {data?.category}
+          </span>
+          <CartArea
+            sizes={data?.sizes}
+            price={data?.price}
+            quantity={data?.currentStock}
+            otherData={{
+              name: data?.name,
+              _id: data?._id,
+              image: data?.images[0],
+            }}
+          />
         </div>
       </div>
       <div className="px-16 lg:px-24  relative">
@@ -65,12 +51,7 @@ const page = () => {
             Product Detail
           </div>
           <div className="col-span-2">
-            <p className="text-justify font-light">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Inventore, qui error temporibus aliquid consequatur fuga totam
-              facere labore harum nisi dolorem corrupti voluptates dolorum
-              adipisci rerum ipsa quas voluptatum ex?
-            </p>
+            <p className="text-justify font-light">{data?.description}</p>
           </div>
         </div>
       </div>
