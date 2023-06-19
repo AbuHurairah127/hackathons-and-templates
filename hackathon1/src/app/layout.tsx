@@ -4,6 +4,7 @@ import { Sora } from "next/font/google";
 import Footer from "@/components/footer/Footer";
 import Bottom from "@/components/bottom/Bottom";
 import { Toaster } from "react-hot-toast";
+import { ClerkProvider } from "@clerk/nextjs";
 export const sora = Sora({ subsets: ["latin"] });
 
 const metadata = {
@@ -17,14 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={sora.className}>
-        <Navbar />
-        {children}
-        <Bottom />
-        <Footer />
-        <Toaster />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={sora.className}>
+          <Navbar />
+          {children}
+          <Bottom />
+          <Footer />
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

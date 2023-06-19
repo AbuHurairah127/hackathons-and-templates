@@ -12,7 +12,13 @@ import logo from "@/assets/logo_image.png";
 import { sora } from "@/app/layout";
 import { useState } from "react";
 import { Spin as Hamburger } from "hamburger-react";
-
+import {
+  ClerkProvider,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 const Navbar = () => {
   const [isNavbar, setIsNavbar] = useState<boolean>(false);
   return (
@@ -62,13 +68,23 @@ const Navbar = () => {
           className="rounded-r ml-2 xl:w-96 text-xs py-0.5 placeholder:text-xs placeholder:font-extralight"
         />
       </div>
-      <div className="p-2.5 rounded-full bg-gray-300 lg:flex hidden">
+      <div className="p-2.5 rounded-full bg-gray-300 lg:flex hidden relative">
         <Link href={"/cart"} className="">
           <ShoppingCart className="relative" />
-          <span className="absolute top-[1.5rem] right-[6.5rem] h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
+          <span className="absolute -top-2.5 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
             0
           </span>
         </Link>
+      </div>
+      <div className="hidden lg:block">
+        <SignedIn>
+          {/* Mount the UserButton component */}
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
+        <SignedOut>
+          {/* Signed out users get sign in button */}
+          <SignInButton />
+        </SignedOut>
       </div>
       <div
         className={
@@ -83,6 +99,16 @@ const Navbar = () => {
         <div className="flex flex-col w-screen h-screen fixed top-0 left-0 p-6 bg-white z-40">
           <Image src={logo} alt="logo" priority />
           <div className="flex flex-col h-full justify-center items-center">
+            <div className="mb-5 ml-3">
+              <SignedIn>
+                {/* Mount the UserButton component */}
+                <UserButton afterSignOutUrl="/" />
+              </SignedIn>
+              <SignedOut>
+                {/* Signed out users get sign in button */}
+                <SignInButton />
+              </SignedOut>
+            </div>
             <div className="p-2 rounded-full bg-gray-300 flex w-fit relative">
               <ShoppingCart className="" />
               <span className="absolute -top-2 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
