@@ -3,6 +3,7 @@ import { Button } from "../../../../components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { fetchSingleProduct } from "@/sanity/sanity-utils";
 import CartArea from "@/sections/details/cartArea/CartArea";
+import Carousel from "@/sections/details/carousel/Carousel";
 export const SizeButton = (props: { label: String }) => {
   return (
     <button className="m-5 text-[#666666] font-semibold uppercase">
@@ -15,14 +16,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="">
       <div className="px-14 lg:px-24 py-16 min-h-screen bg-[#F2F3F7] flex flex-col lg:flex-row">
-        <div className="w-full lg:w-2/3 flex lg:h-[90vh]">
-          <div className="flex flex-col w-[15%] overflow-y-auto mr-12">
-            <Image src={"/Image5.png"} alt="" width={120} height={120} />
-          </div>
-          <div className="w-[70%] aspect-[9/12] relative">
-            <Image fill src="/Image5.png" alt="" />{" "}
-          </div>
-        </div>
+        <Carousel images={data?.images} />
         <div className="w-full lg:w-1/3 mt-12 lg:mt-0">
           <h3 className="text-2xl font-semibold">{data?.name}</h3>
           <span className="text-lg font-semibold text-[#888888]">
