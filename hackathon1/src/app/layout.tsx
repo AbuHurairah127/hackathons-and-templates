@@ -3,7 +3,7 @@ import "./globals.css";
 import { Sora } from "next/font/google";
 import Footer from "@/components/footer/Footer";
 import Bottom from "@/components/bottom/Bottom";
-
+import { Toaster } from "react-hot-toast";
 export const sora = Sora({ subsets: ["latin"] });
 
 const metadata = {
@@ -23,6 +23,7 @@ export default function RootLayout({
         {children}
         <Bottom />
         <Footer />
+        <Toaster />
       </body>
     </html>
   );

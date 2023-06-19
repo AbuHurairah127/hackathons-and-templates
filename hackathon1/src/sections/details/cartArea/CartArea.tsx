@@ -4,6 +4,8 @@ import { Button } from "../../../../components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
 import { useAppDispatch } from "@/store/hooks";
+import { addToCart } from "@/slices/cartSlice";
+import { errToast, successToast } from "@/utils/toasts";
 
 const CartArea = ({
   price,
@@ -32,7 +34,25 @@ const CartArea = ({
 }) => {
   const [quantityToBuy, setQuantityToBuy] = useState(1);
   const [sizeToBuy, setSizeToBuy] = useState<string | undefined>(undefined);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const addToCartHandler = () => {
+    if (sizeToBuy && quantityToBuy > 0) {
+      dispatch(
+        addToCart({
+          _id: otherData._id!,
+          name: otherData.name!,
+          image: otherData.image!,
+          price: price!,
+          quantity: quantityToBuy,
+          size: sizeToBuy,
+        })
+      );
+      successToast("Successfully added to the cart.");
+    } else {
+      errToast("Please! Select a size to buy.");
+    }
+    console.log("button working");
+  };
   return (
     <>
       <div className="">
@@ -41,8 +61,13 @@ const CartArea = ({
         </h4>
         {sizes?.map((size) => (
           <button
-            className="m-2 text-[#666666] font-semibold uppercase p-3 hover:bg-gray-300 rounded-full"
+            className={
+              sizeToBuy === size
+                ? "m-2 text-[#666666] font-semibold uppercase p-3 bg-gray-300 rounded-full border-2 border-black w-12 h-12"
+                : "m-2 text-[#666666] font-semibold uppercase  hover:bg-gray-300 rounded-full w-12 h-12 text-center"
+            }
             key={size}
+            onClick={() => setSizeToBuy(size)}
           >
             {size}
           </button>
@@ -82,7 +107,10 @@ const CartArea = ({
         </div>
       </div>
       <div className="flex items-center mt-10">
-        <Button className="bg-black text-white text-md font-semibold rounded-none py-5 w-fit md:px-12 mr-8 flex">
+        <Button
+          className="bg-black text-white text-md font-semibold rounded-none py-5 w-fit md:px-12 mr-8 flex"
+          onClick={() => addToCartHandler()}
+        >
           <ShoppingCart className="mr-2" size={18} />
           Add to Cart{" "}
         </Button>

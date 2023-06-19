@@ -4,6 +4,7 @@ import { ShoppingCart } from "lucide-react";
 import { fetchSingleProduct } from "@/sanity/sanity-utils";
 import CartArea from "@/sections/details/cartArea/CartArea";
 import Carousel from "@/sections/details/carousel/Carousel";
+import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const data = await fetchSingleProduct(params.id);
@@ -16,17 +17,19 @@ const page = async ({ params }: { params: { id: string } }) => {
           <span className="text-lg font-semibold text-[#888888]">
             {data?.category}
           </span>
-          <CartArea
-            sizes={data?.sizes}
-            price={data?.price}
-            quantity={data?.currentStock}
-            availability={data?.availability}
-            otherData={{
-              name: data?.name,
-              _id: data?._id,
-              image: data?.images[0],
-            }}
-          />
+          <ReduxProvider>
+            <CartArea
+              sizes={data?.sizes}
+              price={data?.price}
+              quantity={data?.currentStock}
+              availability={data?.availability}
+              otherData={{
+                name: data?.name,
+                _id: data?._id,
+                image: data?.images[0],
+              }}
+            />
+          </ReduxProvider>
         </div>
       </div>
       <div className="px-16 lg:px-24  relative">

@@ -19,9 +19,12 @@ const Carousel = ({
   const [selectedImage, setSelectedImage] = useState(images![0]);
   return (
     <div className="w-full lg:w-2/3 flex lg:h-[90vh]">
-      <div className="flex flex-col w-[15%] mr-12 max-h-full overflow-y-auto">
+      <div className="flex flex-col w-[15%] mr-12 h-[30vh] lg:h-full overflow-y-auto">
         {images?.map((image, i) => (
-          <div className="w-32 h-32 relative mb-3" key={i}>
+          <div
+            className="w-full h-16 md:h-28 lg:w-32 lg:h-32 relative mb-3"
+            key={i}
+          >
             <Image
               src={urlFor(image).url()}
               alt=""
