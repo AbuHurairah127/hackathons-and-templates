@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../../../components/ui/button";
 import { ShoppingCart } from "lucide-react";
-const SizeButton = (props: { label: String }) => {
+export const SizeButton = (props: { label: String }) => {
   return (
     <button className="m-5 text-[#666666] font-semibold uppercase">
       {props.label}

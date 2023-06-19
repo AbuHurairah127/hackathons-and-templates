@@ -39,11 +39,7 @@ const CartArea = ({
           Select Size
         </h4>
         {sizes?.map((size) => (
-          <SizeButton
-            key={size}
-            label={size}
-            onClick={() => setSizeToBuy(size)}
-          />
+          <SizeButton key={size} label={size} />
         ))}
       </div>
       <div className="flex">
