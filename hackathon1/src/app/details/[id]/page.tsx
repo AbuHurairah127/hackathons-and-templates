@@ -32,6 +32,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             sizes={data?.sizes}
             price={data?.price}
             quantity={data?.currentStock}
+            availability={data?.availability}
             otherData={{
               name: data?.name,
               _id: data?._id,

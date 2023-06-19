@@ -11,10 +11,12 @@ const CartArea = ({
   quantity,
   sizes,
   otherData,
+  availability,
 }: {
   price: number | undefined;
   quantity: number | undefined;
   sizes: string[] | undefined;
+  availability: boolean | undefined;
   otherData: {
     _id: string | undefined;
     name: string | undefined;
@@ -81,6 +83,12 @@ const CartArea = ({
           Add to Cart{" "}
         </Button>
         <span className="font-bold text-lg">$ {price}</span>
+      </div>
+      <div className="mt-8 flex">
+        Available Stock:&nbsp;
+        <p className={availability ? "" : "text-red-500"}>
+          {availability ? quantity : "Out of Stock"}
+        </p>
       </div>
     </>
   );
