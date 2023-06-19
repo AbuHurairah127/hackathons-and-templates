@@ -4,13 +4,7 @@ import { ShoppingCart } from "lucide-react";
 import { fetchSingleProduct } from "@/sanity/sanity-utils";
 import CartArea from "@/sections/details/cartArea/CartArea";
 import Carousel from "@/sections/details/carousel/Carousel";
-export const SizeButton = (props: { label: String }) => {
-  return (
-    <button className="m-5 text-[#666666] font-semibold uppercase">
-      {props.label}
-    </button>
-  );
-};
+
 const page = async ({ params }: { params: { id: string } }) => {
   const data = await fetchSingleProduct(params.id);
   return (

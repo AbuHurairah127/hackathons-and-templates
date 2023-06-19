@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { ShoppingCart } from "lucide-react";
-import { SizeButton } from "@/app/details/[id]/page";
 import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
 import { useAppDispatch } from "@/store/hooks";
 
@@ -41,7 +40,12 @@ const CartArea = ({
           Select Size
         </h4>
         {sizes?.map((size) => (
-          <SizeButton key={size} label={size} />
+          <button
+            className="m-2 text-[#666666] font-semibold uppercase p-3 hover:bg-gray-300 rounded-full"
+            key={size}
+          >
+            {size}
+          </button>
         ))}
       </div>
       <div className="flex">
