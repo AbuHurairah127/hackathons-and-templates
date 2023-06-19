@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { Button } from "../../../../components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
-import { useAppDispatch } from "@/store/hooks";
-import { addToCart } from "@/slices/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { ProductInCart, addToCart } from "@/slices/cartSlice";
 import { errToast, successToast } from "@/utils/toasts";
 
 const CartArea = ({
@@ -34,8 +34,17 @@ const CartArea = ({
 }) => {
   const [quantityToBuy, setQuantityToBuy] = useState(1);
   const [sizeToBuy, setSizeToBuy] = useState<string | undefined>(undefined);
+  const [productChkAlreadyInCart, setProductChkAlreadyInCart] = useState<
+    ProductInCart | undefined
+  >();
   const dispatch = useAppDispatch();
+  const products = useAppSelector((state) => state.cart.product);
+
   const addToCartHandler = () => {
+    if (!availability) {
+      errToast("Oops! The product isn't available.");
+      return;
+    }
     if (sizeToBuy && quantityToBuy > 0) {
       dispatch(
         addToCart({
@@ -48,10 +57,12 @@ const CartArea = ({
         })
       );
       successToast("Successfully added to the cart.");
-    } else {
-      errToast("Please! Select a size to buy.");
+      return;
     }
-    console.log("button working");
+    if (!sizeToBuy) {
+      errToast("Please! Select a size to buy.");
+      return;
+    }
   };
   return (
     <>

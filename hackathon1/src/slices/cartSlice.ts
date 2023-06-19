@@ -1,7 +1,7 @@
 import { RootState } from "@/store/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ProductInCart {
+export interface ProductInCart {
   _id: string;
   price: number;
   quantity: number;

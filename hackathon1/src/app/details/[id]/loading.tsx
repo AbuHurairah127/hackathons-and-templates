@@ -38,7 +38,7 @@ const StructureLoader = () => {
           </div>
           <div className="flex items-center mt-10">
             <div className="bg-gray-300 w-1/3 h-10 rounded-md animate-pulse" />
-            <span className="font-bold text-lg">$ 545</span>
+            <span className="font-bold text-lg">$ 000</span>
           </div>
         </div>
       </div>
