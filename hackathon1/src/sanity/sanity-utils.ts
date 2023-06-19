@@ -110,8 +110,9 @@ export async function fetchGenderBasedData(gender: string) {
 }
 
 export const fetchSingleProduct = async (id: string) => {
+  console.log("🚀 ~ file: sanity-utils.ts:113 ~ fetchSingleProduct ~ id:", id);
   try {
-    const query = `*[_type == "product"&& _id==$id]`;
+    const query = `*[_type == "product"&& _id in $id]`;
 
     // Fetch data using the query
     const data = await client.fetch<ProductsData>(query, { id });

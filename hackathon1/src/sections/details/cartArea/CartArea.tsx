@@ -107,7 +107,7 @@ const CartArea = ({
                 ? "bg-gray-300 px-3 py-0.5 rounded-full text-3xl font-light"
                 : "bg-gray-200 px-3 py-0.5 rounded-full text-3xl font-light text-gray-500"
             }
-            disabled={quantityToBuy >= quantity!}
+            disabled={availability && quantityToBuy >= quantity!}
             onClick={() => {
               setQuantityToBuy(quantityToBuy + 1);
             }}

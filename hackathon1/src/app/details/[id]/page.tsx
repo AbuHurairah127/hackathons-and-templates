@@ -8,6 +8,7 @@ import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const data = await fetchSingleProduct(params.id);
+  console.log("🚀 ~ file: page.tsx:11 ~ page ~ data:", data);
   return (
     <div className="">
       <div className="px-14 lg:px-24 py-16 min-h-screen bg-[#F2F3F7] flex flex-col lg:flex-row">
