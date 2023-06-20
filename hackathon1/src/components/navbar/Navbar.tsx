@@ -25,6 +25,8 @@ import { fetchCartData } from "@/slices/cartSlice";
 const Navbar = () => {
   const [isNavbar, setIsNavbar] = useState<boolean>(false);
   const quantity = useAppSelector((state) => state.cart.totalQuantity);
+  const subTotal = useAppSelector((state) => state.cart.subTotal);
+  console.log("🚀 ~ file: Navbar.tsx:29 ~ Navbar ~ subTotal:", subTotal);
   const dispatch = useAppDispatch();
   const { userId } = useAuth();
   useEffect(() => {

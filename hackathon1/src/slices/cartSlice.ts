@@ -82,12 +82,19 @@ export const addToCart = createAsyncThunk(
   }
 );
 
-export const fetchCartData = createAsyncThunk("api/cart/GET", async () => {
-  try {
-    const data = await axios.get("/api/cart");
-    console.log("🚀 ~ file: cartSlice.ts:88 ~ fetchCartData ~ data:", data);
-  } catch (error) {}
-});
+export const fetchCartData = createAsyncThunk(
+  "api/cart/GET",
+  async (nothing = undefined, { rejectWithValue }) => {
+    try {
+      const data = await axios.get("/api/cart");
+      console.log(data.data.data);
+
+      return data.data.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -107,6 +114,20 @@ export const cartSlice = createSlice({
         state.subTotal + payload.data.quantity * payload.data.price;
     });
     builder.addCase(addToCart.rejected, (state) => {
+      state.pending = false;
+    });
+    builder.addCase(fetchCartData.pending, (state) => {
+      state.pending = true;
+    });
+    builder.addCase(fetchCartData.fulfilled, (state, { payload }) => {
+      state.product = payload;
+      state.pending = false;
+      payload.forEach((product: ProductInCart) => {
+        state.totalQuantity += product.quantity;
+        state.subTotal += product.price;
+      });
+    });
+    builder.addCase(fetchCartData.rejected, (state) => {
       state.pending = false;
     });
   },

@@ -4,6 +4,8 @@ import { drizzle } from "drizzle-orm/vercel-postgres";
 import { pgTable, integer, text, serial } from "drizzle-orm/pg-core";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@clerk/nextjs";
+import { fetchCartData } from "@/slices/cartSlice";
+import { fetchProductInCart } from "@/sanity/sanity-utils";
 
 const cart = pgTable("cart", {
   _id: serial("_id").primaryKey(),
@@ -92,8 +94,25 @@ export const GET = async (request: NextRequest) => {
     const { userId } = auth();
     if (!userId) return;
     const resp = await db.select().from(cart).where(eq(cart.user_id, userId));
-    console.log("resp", resp);
-    return NextResponse.json({ status: 200, data: resp });
+    if (resp.length > 0) {
+      const ids = resp.map((product, i) => product.product_id);
+      const sanityData = await fetchProductInCart(ids);
+
+      if (!sanityData) return;
+
+      const data = resp.map((product) => {
+        const sanityProduct = sanityData.find(
+          (sanityProduct) => sanityProduct._id === product.product_id
+        );
+        if (sanityProduct) {
+          return { ...product, ...sanityProduct };
+        }
+        return product;
+      });
+      console.log("🚀 ~ file: route.ts:113 ~ data ~ data:", data);
+
+      return NextResponse.json({ status: 200, data: data });
+    }
   } catch (error) {
     console.log("🚀 ~ file: route.ts:99 ~ GET ~ error:", error);
     return NextResponse.json({ status: 500, error: error });
