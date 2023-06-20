@@ -1,5 +1,6 @@
 import { createClient } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
+import { ProductInCart } from "@/slices/cartSlice";
 
 type Size = "XS" | "S" | "M" | "L" | "XL" | "2XL" | "3XL" | "4XL";
 
@@ -110,14 +111,29 @@ export async function fetchGenderBasedData(gender: string) {
 }
 
 export const fetchSingleProduct = async (id: string) => {
-  console.log("🚀 ~ file: sanity-utils.ts:113 ~ fetchSingleProduct ~ id:", id);
   try {
-    const query = `*[_type == "product"&& _id in $id]`;
+    const query = `*[_type == "product"&& _id == $id]`;
 
     // Fetch data using the query
     const data = await client.fetch<ProductsData>(query, { id });
 
     // Return the fetched data
     return data[0];
+  } catch (error) {}
+};
+
+export const fetchProductInCart = async (id: string[]) => {
+  try {
+    const query = `*[_type == "product"&& _id in $id]{
+      _id,
+      name,
+      "images":images[0],
+      price,
+      category
+    }`;
+
+    // Fetch data using the query
+    const data = await client.fetch<ProductInCart[]>(query, { id });
+    return data;
   } catch (error) {}
 };

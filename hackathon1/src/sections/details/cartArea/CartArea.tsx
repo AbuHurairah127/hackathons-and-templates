@@ -34,11 +34,7 @@ const CartArea = ({
 }) => {
   const [quantityToBuy, setQuantityToBuy] = useState(1);
   const [sizeToBuy, setSizeToBuy] = useState<string | undefined>(undefined);
-  const [productChkAlreadyInCart, setProductChkAlreadyInCart] = useState<
-    ProductInCart | undefined
-  >();
   const dispatch = useAppDispatch();
-  const products = useAppSelector((state) => state.cart.product);
 
   const addToCartHandler = () => {
     if (!availability) {
@@ -49,14 +45,10 @@ const CartArea = ({
       dispatch(
         addToCart({
           _id: otherData._id!,
-          name: otherData.name!,
-          image: otherData.image!,
-          price: price!,
           quantity: quantityToBuy,
           size: sizeToBuy,
         })
       );
-      successToast("Successfully added to the cart.");
       return;
     }
     if (!sizeToBuy) {

@@ -2,8 +2,10 @@ import { Delete, Trash2 } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { Button } from "../../../components/ui/button";
+import { currentUser, auth } from "@clerk/nextjs";
 
-const page = () => {
+const page = async () => {
+  const { userId } = auth();
   return (
     <>
       {/* <div className="h-[50vh] flex flex-col justify-center items-center">
@@ -11,7 +13,7 @@ const page = () => {
         <h2 className="text-4xl font-bold">Your shopping bag is empty.</h2>
       </div> */}
       <div className="px-8 lg:px-40 relative">
-        <h3 className="text-2xl font-bold mt-20">Shopping Cart</h3>
+        <h3 className="text-2xl font-bold mt-20">Shopping Cart: {userId}</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-8 gap-8">
           <div className="col-span-2 flex justify-between md:h-48">
             <div className="flex flex-col md:flex-row">

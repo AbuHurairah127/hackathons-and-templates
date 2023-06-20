@@ -5,6 +5,7 @@ import Footer from "@/components/footer/Footer";
 import Bottom from "@/components/bottom/Bottom";
 import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
+import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
 export const sora = Sora({ subsets: ["latin"] });
 
 const metadata = {
@@ -21,7 +22,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={sora.className}>
-          <Navbar />
+          <ReduxProvider>
+            <Navbar />
+          </ReduxProvider>
           {children}
           <Bottom />
           <Footer />

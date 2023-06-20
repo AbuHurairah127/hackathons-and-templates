@@ -19,8 +19,10 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
+import { useAppSelector } from "@/store/hooks";
 const Navbar = () => {
   const [isNavbar, setIsNavbar] = useState<boolean>(false);
+  const quantity = useAppSelector((state) => state.cart.totalQuantity);
   return (
     <nav
       className={
@@ -72,7 +74,7 @@ const Navbar = () => {
         <Link href={"/cart"} className="">
           <ShoppingCart className="relative" />
           <span className="absolute -top-2.5 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
-            0
+            {quantity}
           </span>
         </Link>
       </div>
@@ -112,7 +114,7 @@ const Navbar = () => {
             <div className="p-2 rounded-full bg-gray-300 flex w-fit relative">
               <ShoppingCart className="" />
               <span className="absolute -top-2 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
-                0
+                {quantity}
               </span>
             </div>
             <NavigationMenu className="max-h-40">

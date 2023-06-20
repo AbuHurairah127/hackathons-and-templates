@@ -1,13 +1,17 @@
+import { fetchProductInCart } from "@/sanity/sanity-utils";
 import { RootState } from "@/store/store";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { errToast, successToast } from "@/utils/toasts";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { error } from "console";
 
 export interface ProductInCart {
   _id: string;
-  price: number;
   quantity: number;
-  name: string;
   size: string;
-  image: {
+  name: string;
+  price: number;
+  images: {
     _type: "image";
     asset: {
       _ref: string;
@@ -30,18 +34,68 @@ const initialState: InitialState = {
   subTotal: 0,
   totalQuantity: 0,
 };
-
+export const addToCart = createAsyncThunk(
+  "api/cart/POST",
+  async (
+    data: {
+      _id: string;
+      quantity: number;
+      size: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post("/api/cart", {
+        product_id: data._id,
+        quantity: data.quantity,
+        size: data.size,
+      });
+      if (response.data.status === 400) {
+        errToast(response.data.msg);
+        return rejectWithValue(response.data.msg);
+      }
+      if (response.data.status === 200) {
+        successToast("Successfully added product to your cart.");
+        const productData: ProductInCart[] | undefined =
+          await fetchProductInCart([data._id]);
+        console.log("🚀 ~ file: cartSlice.ts:61 ~ productData:", productData);
+        if (productData === undefined || productData.length === 0) {
+          errToast("Some error occurred while fetching product.");
+          return rejectWithValue("Some error occurred while fetching product.");
+        }
+        return {
+          data: { ...productData[0], size: data.size, quantity: data.quantity },
+        };
+      }
+    } catch (error: any) {
+      errToast("Some error occurred.");
+      return rejectWithValue(error.message);
+    }
+  }
+);
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {
-    addToCart: (state, action: PayloadAction<ProductInCart>) => {
-      state.product = [...state.product, action.payload];
-      state.totalQuantity = state.totalQuantity + action.payload.quantity;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(addToCart.pending, (state) => {
+      state.pending = true;
+    });
+    builder.addCase(addToCart.fulfilled, (state, { payload }) => {
+      state.pending = false;
+      if (!payload) {
+        return;
+      }
+      state.product = [...state.product, payload.data];
+      state.totalQuantity = state.totalQuantity + payload.data.quantity;
+      state.subTotal =
+        state.subTotal + payload.data.quantity * payload.data.price;
+    });
+    builder.addCase(addToCart.rejected, (state) => {
+      state.pending = false;
+    });
   },
 });
 export const selectCount = (state: RootState) => state.cart;
-export const { addToCart } = cartSlice.actions;
 
 export default cartSlice;
