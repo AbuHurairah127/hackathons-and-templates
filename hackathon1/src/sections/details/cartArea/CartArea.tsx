@@ -6,6 +6,7 @@ import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ProductInCart, addToCart } from "@/slices/cartSlice";
 import { errToast, successToast } from "@/utils/toasts";
+import { useRouter } from "next/navigation";
 
 const CartArea = ({
   price,
@@ -35,7 +36,7 @@ const CartArea = ({
   const [quantityToBuy, setQuantityToBuy] = useState(1);
   const [sizeToBuy, setSizeToBuy] = useState<string | undefined>(undefined);
   const dispatch = useAppDispatch();
-
+  const router = useRouter();
   const addToCartHandler = () => {
     if (!availability) {
       errToast("Oops! The product isn't available.");
@@ -47,6 +48,7 @@ const CartArea = ({
           _id: otherData._id!,
           quantity: quantityToBuy,
           size: sizeToBuy,
+          router,
         })
       );
       return;

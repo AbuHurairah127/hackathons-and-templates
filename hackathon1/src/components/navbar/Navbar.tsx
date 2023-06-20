@@ -19,10 +19,11 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 const Navbar = () => {
   const [isNavbar, setIsNavbar] = useState<boolean>(false);
   const quantity = useAppSelector((state) => state.cart.totalQuantity);
+  const dispatch = useAppDispatch();
   return (
     <nav
       className={

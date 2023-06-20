@@ -4,7 +4,7 @@ import { errToast, successToast } from "@/utils/toasts";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { error } from "console";
-
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 export interface ProductInCart {
   _id: string;
   quantity: number;
@@ -41,6 +41,7 @@ export const addToCart = createAsyncThunk(
       _id: string;
       quantity: number;
       size: string;
+      router: AppRouterInstance;
     },
     { rejectWithValue }
   ) => {
@@ -50,6 +51,10 @@ export const addToCart = createAsyncThunk(
         quantity: data.quantity,
         size: data.size,
       });
+      if (response.data.status === 401) {
+        errToast(response.data.msg);
+        return rejectWithValue(response.data.msg);
+      }
       if (response.data.status === 400) {
         errToast(response.data.msg);
         return rejectWithValue(response.data.msg);
@@ -58,7 +63,6 @@ export const addToCart = createAsyncThunk(
         successToast("Successfully added product to your cart.");
         const productData: ProductInCart[] | undefined =
           await fetchProductInCart([data._id]);
-        console.log("🚀 ~ file: cartSlice.ts:61 ~ productData:", productData);
         if (productData === undefined || productData.length === 0) {
           errToast("Some error occurred while fetching product.");
           return rejectWithValue("Some error occurred while fetching product.");
@@ -68,7 +72,11 @@ export const addToCart = createAsyncThunk(
         };
       }
     } catch (error: any) {
-      errToast("Some error occurred.");
+      console.log("🚀 ~ file: cartSlice.ts:74 ~ error:", error);
+      if (error.response.status === 401) {
+        errToast("You are not logged in.!");
+        data.router.push("/signin");
+      }
       return rejectWithValue(error.message);
     }
   }

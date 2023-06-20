@@ -19,10 +19,13 @@ export const POST = async (request: NextRequest) => {
     const req = await request.json();
     const { userId } = auth();
     if (!userId) {
-      return NextResponse.json({
+      console.log("err");
+
+      NextResponse.json({
         status: 401,
         error: "You are not logged in.",
       });
+      return NextResponse.redirect("/signin");
     }
     const chkData = await db
       .select()
@@ -52,6 +55,7 @@ export const POST = async (request: NextRequest) => {
       .returning();
     return NextResponse.json({ status: 200, data: resp });
   } catch (error) {
+    console.log("🚀 ~ file: route.ts:55 ~ POST ~ error:", error);
     return NextResponse.json({ status: 500, error });
   }
 };
