@@ -89,9 +89,13 @@ export const DELETE = async (request: NextRequest) => {
 export const GET = async (request: NextRequest) => {
   try {
     const db = drizzle(sql);
-    const resp = await db.select().from(cart).where(eq(cart.user_id, ""));
-    console.log("🚀 ~ file: route.ts:66 ~ GET ~ resp:", resp);
+    const { userId } = auth();
+    if (!userId) return;
+    const resp = await db.select().from(cart).where(eq(cart.user_id, userId));
+    console.log("resp", resp);
+    return NextResponse.json({ status: 200, data: resp });
   } catch (error) {
+    console.log("🚀 ~ file: route.ts:99 ~ GET ~ error:", error);
     return NextResponse.json({ status: 500, error: error });
   }
 };

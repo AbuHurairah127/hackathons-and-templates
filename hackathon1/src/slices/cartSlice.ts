@@ -81,6 +81,13 @@ export const addToCart = createAsyncThunk(
     }
   }
 );
+
+export const fetchCartData = createAsyncThunk("api/cart/GET", async () => {
+  try {
+    const data = await axios.get("/api/cart");
+    console.log("🚀 ~ file: cartSlice.ts:88 ~ fetchCartData ~ data:", data);
+  } catch (error) {}
+});
 export const cartSlice = createSlice({
   name: "cart",
   initialState,

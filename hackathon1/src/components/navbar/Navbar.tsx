@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import logo from "@/assets/logo_image.png";
 import { sora } from "@/app/layout";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Spin as Hamburger } from "hamburger-react";
 import {
   ClerkProvider,
@@ -18,12 +18,20 @@ import {
   SignedOut,
   SignInButton,
   UserButton,
+  useAuth,
 } from "@clerk/nextjs";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { fetchCartData } from "@/slices/cartSlice";
 const Navbar = () => {
   const [isNavbar, setIsNavbar] = useState<boolean>(false);
   const quantity = useAppSelector((state) => state.cart.totalQuantity);
   const dispatch = useAppDispatch();
+  const { userId } = useAuth();
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchCartData());
+    }
+  }, [userId, dispatch]);
   return (
     <nav
       className={
