@@ -131,7 +131,7 @@ const Navbar = () => {
               </SignedOut>
             </div>
             <div className="p-2 rounded-full bg-gray-300 flex w-fit relative">
-              <Link href={"/cart"}>
+              <Link href={"/cart-details"}>
                 <>
                   <ShoppingCart className="" />
                   <span className="absolute -top-2 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">

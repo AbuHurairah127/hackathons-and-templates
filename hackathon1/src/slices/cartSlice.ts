@@ -6,12 +6,14 @@ import axios from "axios";
 import { error } from "console";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 export interface ProductInCart {
-  _id: string;
+  _id: number;
+  product_id: string;
   quantity: number;
   size: string;
   name: string;
   price: number;
   category: string;
+  availableQuantity: number;
   images: {
     _type: "image";
     asset: {
@@ -89,6 +91,21 @@ export const fetchCartData = createAsyncThunk(
     try {
       const data = await axios.get("/api/cart");
       return data.data.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const deleteFromCart = createAsyncThunk(
+  "/api/cart/DELETE",
+  async (_id: number, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`/api/cart/${_id}`);
+      if (response.data.status) {
+        successToast(response.data.data);
+      }
+      console.log("🚀 ~ file: cartSlice.ts:105 ~ response:", response);
+      return;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }

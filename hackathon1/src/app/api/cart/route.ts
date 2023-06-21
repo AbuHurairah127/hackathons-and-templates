@@ -6,7 +6,7 @@ import { eq, and } from "drizzle-orm";
 import { auth } from "@clerk/nextjs";
 import { fetchCartData } from "@/slices/cartSlice";
 import { fetchProductInCart } from "@/sanity/sanity-utils";
-
+import { useSearchParams } from "next/navigation";
 const cart = pgTable("cart", {
   _id: serial("_id").primaryKey(),
   product_id: text("product_id").notNull(),
@@ -76,18 +76,6 @@ export const PATCH = async (request: NextRequest) => {
     return NextResponse.json({ status: 500, error: error });
   }
 };
-export const DELETE = async (request: NextRequest) => {
-  try {
-    const db = drizzle(sql);
-    const resp = await db.delete(cart).where(eq(cart._id, 1));
-    return NextResponse.json({
-      status: 200,
-      data: "Successfully deleted a product from cart!",
-    });
-  } catch (error) {
-    return NextResponse.json({ status: 500, error: error });
-  }
-};
 
 export const GET = async (request: NextRequest) => {
   try {
@@ -103,7 +91,7 @@ export const GET = async (request: NextRequest) => {
 
       const data = resp.map((product) => {
         const sanityProduct = sanityData.find(
-          (sanityProduct) => sanityProduct._id === product.product_id
+          (sanityProduct) => sanityProduct.product_id === product.product_id
         );
         if (sanityProduct) {
           return { ...product, ...sanityProduct };

@@ -125,11 +125,12 @@ export const fetchSingleProduct = async (id: string) => {
 export const fetchProductInCart = async (id: string[]) => {
   try {
     const query = `*[_type == "product"&& _id in $id]{
-      _id,
+      "product_id":_id,
       name,
       "images":images[0],
       price,
-      category
+      category,
+      "availableQuantity":quantity
     }`;
 
     // Fetch data using the query

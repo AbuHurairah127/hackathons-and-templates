@@ -1,25 +1,30 @@
 "use client";
 import { urlFor } from "@/sanity/sanity-utils";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { ShoppingBag, Trash2 } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../../components/ui/button";
+import { deleteFromCart } from "@/slices/cartSlice";
 
 const Cart = () => {
   const quantity = useAppSelector((state) => state.cart.totalQuantity);
   const sub_total = useAppSelector((state) => state.cart.subTotal);
   const products = useAppSelector((state) => state.cart.product);
+  const dispatch = useAppDispatch();
   return (
     <>
       {products.length > 0 ? (
-        <div className="px-8 lg:px-40 relative">
+        <div className="px-3 lg:px-40 relative">
           <h3 className="text-2xl font-bold mt-20">Shopping Cart</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-8 gap-8">
             {products.map((prod, i) => (
-              <div className="col-span-2 flex justify-between md:h-48" key={i}>
+              <div
+                className="col-span-2 flex justify-between md:h-48 border-b pb-5 border-b-black"
+                key={i}
+              >
                 <div className="flex flex-col md:flex-row">
-                  <div className="aspect-square h-48 relative">
+                  <div className="aspect-square h-48 relative mb-5 lg:mb-0">
                     <Image
                       src={urlFor(prod.images).url()}
                       fill
@@ -33,9 +38,7 @@ const Cart = () => {
                       {prod.category}
                       <br />
                     </span>
-                    <span className="font-bold bg-[#412e2e] text-white w-fit p-2.5">
-                      {prod.size}
-                    </span>
+
                     <span className="font-semibold">Delivery Estimation</span>
                     <span className="font-semibold text-[#FFD239]">
                       5 working Days
@@ -44,7 +47,16 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="flex flex-col justify-between justify-self-end lg:pr-8">
-                  <Trash2 size={25} className="self-end cursor-pointer" />
+                  <button
+                    onClick={() => {
+                      dispatch(deleteFromCart(prod._id));
+                    }}
+                  >
+                    <Trash2 size={25} className="self-end cursor-pointer" />
+                  </button>
+                  <span className="font-bold bg-[#412e2e] text-white w-fit p-2.5">
+                    {prod.size}
+                  </span>
                 </div>
               </div>
             ))}
