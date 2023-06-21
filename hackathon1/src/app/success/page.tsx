@@ -20,7 +20,7 @@ const CheckoutSuccess = () => {
           </a>
         </p>
         <Link
-          href={"/"}
+          href={"/allProducts"}
           className="bg-black text-white text-md font-semibold rounded-none py-5 w-fit px-8 mt-10 flex"
         >
           <ShoppingCart className="mr-2" />
