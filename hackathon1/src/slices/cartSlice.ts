@@ -4,6 +4,7 @@ import { errToast, successToast } from "@/utils/toasts";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { error } from "console";
+import { stat } from "fs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 export interface ProductInCart {
   _id: number;
@@ -102,9 +103,10 @@ export const deleteFromCart = createAsyncThunk(
     try {
       const response = await axios.delete(`/api/cart/${_id}`);
       if (response.data.status) {
+        console.log("🚀 ~ file: cartSlice.ts:105 ~ response:", response);
         successToast(response.data.data);
+        return _id;
       }
-      console.log("🚀 ~ file: cartSlice.ts:105 ~ response:", response);
       return;
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -140,10 +142,23 @@ export const cartSlice = createSlice({
       state.pending = false;
       payload.forEach((product: ProductInCart) => {
         state.totalQuantity += product.quantity;
-        state.subTotal += product.price;
+        state.subTotal = state.subTotal + product.price * product.quantity;
       });
     });
     builder.addCase(fetchCartData.rejected, (state) => {
+      state.pending = false;
+    });
+    builder.addCase(deleteFromCart.pending, (state) => {
+      state.pending = true;
+    });
+    builder.addCase(deleteFromCart.fulfilled, (state, { payload }) => {
+      state.pending = false;
+      const product = state.product.find((prod) => prod._id === payload);
+      if (!product) return;
+      state.totalQuantity = state.totalQuantity - product?.quantity;
+      state.product = state.product.filter((prod) => prod._id !== payload);
+    });
+    builder.addCase(deleteFromCart.rejected, (state) => {
       state.pending = false;
     });
   },

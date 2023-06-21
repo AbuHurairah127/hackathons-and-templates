@@ -4,9 +4,7 @@ import { drizzle } from "drizzle-orm/vercel-postgres";
 import { pgTable, integer, text, serial } from "drizzle-orm/pg-core";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@clerk/nextjs";
-import { fetchCartData } from "@/slices/cartSlice";
 import { fetchProductInCart } from "@/sanity/sanity-utils";
-import { useSearchParams } from "next/navigation";
 const cart = pgTable("cart", {
   _id: serial("_id").primaryKey(),
   product_id: text("product_id").notNull(),

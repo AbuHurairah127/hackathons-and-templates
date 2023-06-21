@@ -6,12 +6,50 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { deleteFromCart } from "@/slices/cartSlice";
+import getStipePromise from "./../../../lib/stripe";
 
 const Cart = () => {
   const quantity = useAppSelector((state) => state.cart.totalQuantity);
   const sub_total = useAppSelector((state) => state.cart.subTotal);
   const products = useAppSelector((state) => state.cart.product);
   const dispatch = useAppDispatch();
+
+  const product = [
+    {
+      product: 1,
+      name: "Stripe Product",
+      price: 400,
+      quantity: 3,
+    },
+    {
+      product: 2,
+      name: "Stripe Product2",
+      price: 40,
+      quantity: 2,
+    },
+    {
+      product: 3,
+      name: "Stripe Product23",
+      price: 4000,
+      quantity: 1,
+    },
+  ];
+
+  const handleCheckout = async () => {
+    const stripe = await getStipePromise();
+    const response = await fetch("/api/stripe-session/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      cache: "no-cache",
+      body: JSON.stringify(product),
+    });
+
+    const data = await response.json();
+    if (data.session) {
+      stripe?.redirectToCheckout({ sessionId: data.session.id });
+    }
+  };
+
   return (
     <>
       {products.length > 0 ? (
@@ -20,7 +58,7 @@ const Cart = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-8 gap-8">
             {products.map((prod, i) => (
               <div
-                className="col-span-2 flex justify-between md:h-48 border-b pb-5 border-b-black"
+                className="col-span-2 flex justify-between md:h-48 border-b pb-5 border-b-black lg:border-0"
                 key={i}
               >
                 <div className="flex flex-col md:flex-row">
@@ -33,7 +71,12 @@ const Cart = () => {
                     />
                   </div>
                   <div className="ml-8 flex flex-col justify-between">
-                    <h4 className="text-xl font-light ">{prod.name}</h4>
+                    <div className="flex">
+                      <h4 className="text-xl font-light ">{prod.name}</h4>
+                      <h4 className="text-xl font-light bg-black text-white ml-3 px-2">
+                        x{prod.quantity}
+                      </h4>
+                    </div>
                     <span className="font-bold text-[#412e2e]">
                       {prod.category}
                       <br />
@@ -72,7 +115,10 @@ const Cart = () => {
                   <span>$ {sub_total}</span>
                 </div>
               </div>
-              <Button className="bg-black text-white text-md font-semibold rounded-none py-8 md:py-5 md:px-12 mr-8 flex w-full">
+              <Button
+                className="bg-black text-white text-md font-semibold rounded-none py-8 md:py-5 md:px-12 mr-8 flex w-full"
+                onClick={handleCheckout}
+              >
                 Proceed to Checkout
               </Button>
             </div>
