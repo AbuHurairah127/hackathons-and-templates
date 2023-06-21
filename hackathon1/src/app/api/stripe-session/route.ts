@@ -1,3 +1,9 @@
+import { cart } from "@/lib/drizzle";
+import { urlFor } from "@/sanity/sanity-utils";
+import { sql } from "@vercel/postgres";
+import { auth } from "@clerk/nextjs";
+import { eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/vercel-postgres";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -17,28 +23,24 @@ export async function POST(request: NextRequest) {
         mode: "payment",
         payment_method_types: ["card"],
         billing_address_collection: "auto",
-        // shipping_options: [
-        //   { shipping_rate: "shr_1NJgGfFFOcRRviB5IKHisAI1" },
-        //   { shipping_rate: "shr_1NJgFzFFOcRRviB5RNlrrnhM" },
-        // ],
+        shipping_options: [
+          { shipping_rate: "shr_1NLVnkDW2P1uB9J0xXS6TI7v" },
+          { shipping_rate: "shr_1NLVpwDW2P1uB9J0VKL9UXJM" },
+        ],
         invoice_creation: {
           enabled: true,
         },
         line_items: body.map((item: any) => {
           return {
             price_data: {
-              currency: "pkr",
+              currency: "usd",
               product_data: {
                 name: item.name,
+                // images: urlFor(item.images).url(),
               },
               unit_amount: item.price * 100,
             },
             quantity: item.quantity,
-            // adjustable_quantity: {
-            //   enabled: true,
-            //   minimum: 1,
-            //   maximum: 10,
-            // },
           };
         }),
         phone_number_collection: {
@@ -47,6 +49,12 @@ export async function POST(request: NextRequest) {
         success_url: `${request.headers.get("origin")}/success`,
         cancel_url: `${request.headers.get("origin")}/?canceled=true`,
       });
+      const { userId } = auth();
+      if (!userId) return;
+
+      const db = drizzle(sql);
+      const resp = await db.delete(cart).where(eq(cart.user_id, userId));
+
       return NextResponse.json({ session });
     } else {
       return NextResponse.json({ message: "No Data Found" });
