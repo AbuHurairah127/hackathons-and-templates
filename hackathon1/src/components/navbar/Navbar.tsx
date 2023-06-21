@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchCartData } from "@/slices/cartSlice";
 const Navbar = () => {
   const [isNavbar, setIsNavbar] = useState<boolean>(false);
-  const quantity = useAppSelector((state) => state.cart.totalQuantity);
+  const { totalQuantity, pending } = useAppSelector((state) => state.cart);
   const subTotal = useAppSelector((state) => state.cart.subTotal);
   console.log("🚀 ~ file: Navbar.tsx:29 ~ Navbar ~ subTotal:", subTotal);
   const dispatch = useAppDispatch();
@@ -82,11 +82,19 @@ const Navbar = () => {
         />
       </div>
       <div className="p-2.5 rounded-full bg-gray-300 lg:flex hidden relative">
-        <Link href={"/cart"} className="">
-          <ShoppingCart className="relative" />
-          <span className="absolute -top-2.5 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
-            {quantity}
-          </span>
+        <Link href={"/cart-details"} className="cursor-pointer">
+          <>
+            <ShoppingCart className="relative" />
+            <span
+              className={
+                pending
+                  ? "absolute -top-2.5 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white animate-ping"
+                  : "absolute -top-2.5 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white"
+              }
+            >
+              {totalQuantity}
+            </span>
+          </>
         </Link>
       </div>
       <div className="hidden lg:block">
@@ -123,10 +131,14 @@ const Navbar = () => {
               </SignedOut>
             </div>
             <div className="p-2 rounded-full bg-gray-300 flex w-fit relative">
-              <ShoppingCart className="" />
-              <span className="absolute -top-2 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
-                {quantity}
-              </span>
+              <Link href={"/cart"}>
+                <>
+                  <ShoppingCart className="" />
+                  <span className="absolute -top-2 -right-2 h-6 w-6 text-center rounded-full bg-[#f02d34] text-white">
+                    {totalQuantity}
+                  </span>
+                </>
+              </Link>
             </div>
             <NavigationMenu className="max-h-40">
               <NavigationMenuList>

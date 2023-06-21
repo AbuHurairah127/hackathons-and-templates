@@ -63,6 +63,7 @@ export const POST = async (request: NextRequest) => {
 };
 export const PATCH = async (request: NextRequest) => {
   try {
+    const req = request.json();
     const db = drizzle(sql);
     const resp = await db
       .update(cart)

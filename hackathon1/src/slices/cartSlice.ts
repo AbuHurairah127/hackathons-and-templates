@@ -11,6 +11,7 @@ export interface ProductInCart {
   size: string;
   name: string;
   price: number;
+  category: string;
   images: {
     _type: "image";
     asset: {
@@ -87,8 +88,6 @@ export const fetchCartData = createAsyncThunk(
   async (nothing = undefined, { rejectWithValue }) => {
     try {
       const data = await axios.get("/api/cart");
-      console.log(data.data.data);
-
       return data.data.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
