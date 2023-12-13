@@ -14,7 +14,7 @@ const Promotions = () => {
         Our Promotions Events
       </h3>
       <div className="cards flex lg:px-24 w-screen flex-wrap items-center justify-center">
-        <div className="w-[90vw] lg:w-1/2 lg:h-[55vh] flex flex-col lg:justify-between lg:pr-8 space-y-5 mb-12 lg:mb-0">
+        <div className="w-[90vw] lg:w-1/2 lg:h-[55vh] flex flex-col lg:justify-between lg:pr-8 space-y-5 mb-12 lg:mb-0 items-center">
           <div className="bg-[#D6D6D8] lg:h-1/2 flex flex-col md:flex-row pt-8 lg:pt-0 justify-center items-center mb-4">
             <div className="lg:w-1/2 h-full flex flex-col justify-center items-center">
               <h3 className="font-bold text-3xl text-center">GET UP TO 60%</h3>

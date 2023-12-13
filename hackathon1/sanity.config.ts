@@ -1,5 +1,4 @@
 import { schemas } from "@/sanity/schemas";
-import { createImprovedAction } from "@/sanity/webhooks/publishAction";
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 export const config = defineConfig({
