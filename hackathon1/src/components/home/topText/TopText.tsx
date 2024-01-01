@@ -6,36 +6,33 @@ const TopText = () => {
   const animationVariants = {
     initial: {
       opacity: 0,
-      y: 20,
     },
     animate: {
       opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1,
-      },
     },
   };
   return (
-    <div className="text-center py-24 text-[48px] sm:text-[56px] md:text-[64px] lg:text-[85px] font-bold px-5 md:px-12 lg:px-20 bg-gray-50">
+    <div className="text-center py-24 text-[48px] sm:text-[56px] md:text-[64px] lg:text-[85px] font-bold px-4 md:px-12 lg:px-20 bg-gray-100">
       <motion.span
         initial="initial"
         animate="animate"
-        transition={{ staggerChildren: 0.15 }}
-        className=" text-center text-[48px] sm:text-[56px] md:text-[64px] lg:text-[85px] font-bold block"
+        transition={{ staggerChildren: 0.1 }}
+        className=" text-center  text-[48px] sm:text-[56px] md:text-[64px] lg:text-[85px] font-bold"
         aria-hidden
       >
         {" Step UP your Style Game With FABThreads' Curated Collection."
           .split(" ")
           .map((word: string, i: number) => (
             <motion.span key={i} className="inline-block">
-              <motion.span
-                variants={animationVariants}
-                className="inline-block"
-                key={i}
-              >
-                {word}
-              </motion.span>
+              {word.split("").map((character: string, i: number) => (
+                <motion.span
+                  variants={animationVariants}
+                  className="inline-block"
+                  key={i}
+                >
+                  {character}
+                </motion.span>
+              ))}
               <span>&nbsp;</span>
             </motion.span>
           ))}
