@@ -13,16 +13,16 @@ const Promotions = () => {
       <h3 className="lg:text-5xl text-4xl font-bold my-5 text-center">
         Our Promotions Events
       </h3>
-      <div className="cards flex lg:px-24 w-screen flex-wrap items-center justify-center">
-        <div className="w-[90vw] lg:w-1/2 lg:h-[55vh] flex flex-col lg:justify-between lg:pr-8 space-y-5 mb-12 lg:mb-0 items-center">
-          <div className="bg-[#D6D6D8] lg:h-1/2 flex flex-col md:flex-row pt-8 lg:pt-0 justify-center items-center mb-4">
+      <div className=" grid lg:px-24 lg:grid-cols-4">
+        <div className="col-span-2 grid grid-cols-2 grid-rows-2">
+          <div className="row-span-1 col-span-2 bg-[#D6D6D8] lg:h-1/2 flex flex-col md:flex-row pt-8 lg:pt-0 justify-center items-center mb-4 overflow-hidden">
             <div className="lg:w-1/2 h-full flex flex-col justify-center items-center">
               <h3 className="font-bold text-3xl text-center">GET UP TO 60%</h3>
               <p className="text-center">For the summer season</p>
             </div>
             <Image src={card1} alt={""} />
           </div>
-          <div className="lg:h-1/2 bg-[#212121] py-12 lg:py-0 flex flex-col justify-center items-center">
+          <div className="lg:h-1/2 bg-[#212121] py-12 lg:py-0 col-span-2 row-span-1">
             <h3 className="font-bold text-3xl text-white my-4">GET 30% Off</h3>
             <p className="text-white">Use Promo Code</p>
             <Button
@@ -33,8 +33,8 @@ const Promotions = () => {
             </Button>
           </div>
         </div>
-        <div className="lg:w-1/2 lg:h-[55vh] flex w-[90vw] justify-between flex-wrap md:flex-nowrap">
-          <div className="w-[90vw] lg:h-full md:w-1/2 bg-[#EFE1C7] md:mr-8 flex flex-col justify-between max-h-full overflow-hidden mb-12 md:mb-0">
+        <div className="col-span-2 grid grid-cols-2">
+          <div className="bg-[#EFE1C7] col-span-1">
             <div className="px-4 pt-5">
               <p>Flex Sweatshirt</p>
               <p className="font-semibold">
@@ -44,7 +44,7 @@ const Promotions = () => {
             </div>
             <Image src={card2} alt={""} className="self-center" />
           </div>
-          <div className="w-[90vw] md:w-1/2 bg-[#D7D7D9] flex flex-col justify-between max-h-full overflow-hidden">
+          <div className=" col-span-1 bg-[#D7D7D9]">
             <div className="px-4 pt-5">
               <p>Flex Push Button Bomber</p>
               <p className="font-semibold">
