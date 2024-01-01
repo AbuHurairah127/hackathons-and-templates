@@ -6,14 +6,13 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "./../ui/navigation-menu";
+} from "../../ui/navigation-menu";
 import Link from "next/link";
-import logo from "@/assets/logo_image.png";
+import logo from "./../../../../public/FAB logo.jpg";
 import { sora } from "@/app/layout";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Spin as Hamburger } from "hamburger-react";
 import {
-  ClerkProvider,
   SignedIn,
   SignedOut,
   SignInButton,
@@ -24,6 +23,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchCartData } from "@/slices/cartSlice";
 const Navbar = () => {
   const [isNavbar, setIsNavbar] = useState<boolean>(false);
+  const [atTop, setAtTop] = useState<boolean>(true);
   const { totalQuantity, pending } = useAppSelector((state) => state.cart);
   const subTotal = useAppSelector((state) => state.cart.subTotal);
   console.log("🚀 ~ file: Navbar.tsx:29 ~ Navbar ~ subTotal:", subTotal);
@@ -34,15 +34,30 @@ const Navbar = () => {
       dispatch(fetchCartData());
     }
   }, [userId, dispatch]);
+  useEffect(() => {
+    window.onscroll = () => {
+      if (window.scrollY > 50) {
+        setAtTop(false);
+      } else {
+        setAtTop(true);
+      }
+    };
+  });
   return (
     <nav
-      className={
-        "flex justify-between items-center px-5 lg:px-20 h-24 my-2 mx-8"
-      }
+      className={`flex justify-between items-center px-5 lg:px-20 h-24 sticky top-0 bg-white ${
+        atTop ? "" : "shadow-xl"
+      } w-full transition-all duration-500 z-[1000000]`}
     >
       {!isNavbar && (
         <Link href={"/"}>
-          <Image src={logo} alt="logo" priority />
+          <Image
+            src={logo}
+            className="rounded-full  w-20 aspect-square"
+            alt="FAB Threads Logo"
+            title="FABthreads Logo"
+            priority
+          />
         </Link>
       )}
       <div className="lg:flex hidden">
@@ -50,7 +65,7 @@ const Navbar = () => {
           <NavigationMenuList>
             <NavigationMenuItem className="space-x-5">
               <Link href={"/female"} legacyBehavior passHref>
-                <NavigationMenuLink className={sora.className}>
+                <NavigationMenuLink className={`${sora.className}`}>
                   Female
                 </NavigationMenuLink>
               </Link>
@@ -118,7 +133,12 @@ const Navbar = () => {
       </div>
       {isNavbar && (
         <div className="flex flex-col w-screen h-screen fixed top-0 left-0 p-6 bg-white z-40">
-          <Image src={logo} alt="logo" priority />
+          {/* <Image
+            src={logo}
+            alt="logo"
+            className="rounded-full  w-20 aspect-square"
+            priority
+          /> */}
           <div className="flex flex-col h-full justify-center items-center">
             <div className="mb-5 ml-3">
               <SignedIn>
