@@ -13,7 +13,7 @@ const Hero = () => {
   const container = useRef(null);
   const animateOnView = useInView(container, { amount: 0.5 });
   const animateOnViewP = useInView(container, { amount: 0.6 });
-  const animateOnViewButton = useInView(container, { amount: 0.7 });
+  const animateOnViewButton = useInView(container, { amount: 0.65 });
   const variantsOfH2 = {
     initial: {
       opacity: 0,
@@ -65,7 +65,7 @@ const Hero = () => {
       opacity: 1,
       x: 0,
       transition: {
-        duration: 0.7,
+        duration: 0.8,
         type: "spring",
       },
     },
