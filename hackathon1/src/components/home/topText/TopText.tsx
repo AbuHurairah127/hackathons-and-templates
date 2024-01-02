@@ -12,12 +12,12 @@ const TopText = () => {
     },
   };
   return (
-    <div className="text-center py-24 text-[48px] sm:text-[56px] md:text-[64px] lg:text-[85px] font-bold px-4 md:px-12 lg:px-20 bg-gray-100">
+    <div className="text-center py-24 text-[48px] sm:text-[56px] md:text-[64px] font-bold px-4 md:px-12 lg:px-20 bg-gray-100">
       <motion.span
         initial="initial"
         animate="animate"
         transition={{ staggerChildren: 0.1 }}
-        className=" text-center  text-[48px] sm:text-[56px] md:text-[64px] lg:text-[85px] font-bold"
+        className=" text-center  text-[48px] sm:text-[56px] md:text-[64px] font-bold"
         aria-hidden
       >
         {" Step UP your Style Game With FABThreads' Curated Collection."

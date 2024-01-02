@@ -1,7 +1,5 @@
-import React from "react";
-import { Badge } from "../../../../components/ui/badge";
-import { sora } from "@/app/layout";
-import { Button } from "../../../../components/ui/button";
+"use client";
+import React, { useRef } from "react";
 import { ShoppingCart } from "lucide-react";
 import bazaar from "@/assets/bazaar.png";
 import bustle from "@/assets/bustle.png";
@@ -10,39 +8,127 @@ import versace from "@/assets/versace.png";
 import heroImage from "@/assets/hero.png";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useInView } from "framer-motion";
 const Hero = () => {
+  const container = useRef(null);
+  const animateOnView = useInView(container, { amount: 0.5 });
+  const animateOnViewP = useInView(container, { amount: 0.6 });
+  const animateOnViewButton = useInView(container, { amount: 0.7 });
+  const variantsOfH2 = {
+    initial: {
+      opacity: 0,
+      x: "-100%",
+    },
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.7,
+        type: "spring",
+      },
+    },
+  };
+  const variantsOfImage = {
+    initial: {
+      opacity: 0,
+      x: "100%",
+    },
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.7,
+        type: "spring",
+      },
+    },
+  };
+  const variantsOfP = {
+    initial: {
+      opacity: 0,
+      x: "-100%",
+    },
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.7,
+        type: "spring",
+      },
+    },
+  };
+  const variantsOfButton = {
+    initial: {
+      opacity: 0,
+      x: "-100%",
+    },
+    animate: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.7,
+        type: "spring",
+      },
+    },
+  };
+
   return (
-    <div className={"lg:h-[90vh] lg:flex min-w-screen"}>
-      <div className="flex flex-col lg:w-[50vw] px-16 py-12 lg:px-24 lg:py-20">
-        <Badge
-          className={`border-none bg-[#E1EDFF] text-[#0000FF] rounded-lg  px-5 text-md w-[120px] h-[40px] font-semibold ${sora.className}`}
+    <div
+      ref={container}
+      className={
+        "xl:h-[calc(100vh-6rem)] lg:grid grid-cols-2 w-full overflow-hidden"
+      }
+    >
+      <div className="flex flex-col col-span-1 px-8 py-8 xl:px-24 xl:py-20">
+        <motion.h2
+          variants={variantsOfH2}
+          initial="initial"
+          animate={animateOnView ? "animate" : "initial"}
+          className="font-bold text-5xl lg:text-6xl my-10"
         >
-          Sale 70%
-        </Badge>
-        <h2 className="font-bold text-5xl lg:text-6xl my-10">
-          An Industrial Take on Streetwear
-        </h2>
-        <p className="lg:mr-48 text-[#666666]">
+          An Industrial Take on Street Wear
+        </motion.h2>
+        <motion.p
+          variants={variantsOfP}
+          initial="initial"
+          animate={animateOnViewP ? "animate" : "initial"}
+          className="text-[#666666]"
+        >
           Anyone can beat you but no one can beat your outfit as long as you
           wear Dine outfits.
-        </p>
-        <Link
-          href={"/allProducts"}
-          className="bg-black text-white text-md font-semibold rounded-none py-5 w-fit px-8 mt-10 flex"
+        </motion.p>
+        <motion.div
+          variants={variantsOfButton}
+          initial="initial"
+          animate={animateOnViewButton ? "animate" : "initial"}
         >
-          <ShoppingCart className="mr-2" />
-          Start Shopping
-        </Link>
-        <div className="flex justify-between mt-16 flex-wrap lg:space-y-0 space-y-2">
+          <Link
+            href={"/allProducts"}
+            className="bg-black text-white text-md font-semibold rounded-none py-5 w-fit px-8 mt-10 flex"
+          >
+            <ShoppingCart className="mr-2" />
+            Start Shopping
+          </Link>
+        </motion.div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 mt-16 xl:gap-y-0 gap-y-4">
           <Image src={bazaar} alt="clients" />
           <Image src={bustle} alt="clients" />
           <Image src={versace} alt="clients" />
           <Image src={instyle} alt="clients" />
         </div>
       </div>
-      <div className="relative hidden lg:flex justify-center items-end lg:w-[50vw] ">
-        <div className="h-[600px] w-[600px] bg-[#FFECE3] rounded-full absolute -z-10 top-20 left-20"></div>
-        <Image src={heroImage} alt="" />
+      <div className="col-span-1 flex justify-center items-center">
+        <motion.div
+          variants={variantsOfImage}
+          initial="initial"
+          animate={animateOnView ? "animate" : "initial"}
+          className="w-2/3 aspect-square bg-[#FFECE3] flex items-center justify-center rounded-full overflow-hidden"
+        >
+          <Image
+            src={heroImage}
+            alt="Hero image"
+            className="scale-90 rounded-full"
+          />
+        </motion.div>
       </div>
     </div>
   );

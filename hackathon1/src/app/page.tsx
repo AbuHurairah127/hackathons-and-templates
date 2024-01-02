@@ -11,10 +11,10 @@ export default function Home() {
     <main className={sora.className}>
       <TopText />
       <Hero />
-      <Promotions />
-      <Products />
-      <Promo />
-      <Newsletter />
+      {/* <Promotions /> */}
+      {/* <Products /> */}
+      {/* <Promo /> */}
+      {/* <Newsletter /> */}
     </main>
   );
 }
