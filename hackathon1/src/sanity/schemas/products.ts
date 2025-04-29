@@ -1,13 +1,3 @@
-export const SIZES = [
-  { title: "XS", value: "XS" },
-  { title: "S", value: "S" },
-  { title: "M", value: "M" },
-  { title: "L", value: "L" },
-  { title: "XL", value: "XL" },
-  { title: "2XL", value: "2XL" },
-  { title: "3XL", value: "3XL" },
-  { title: "4XL", value: "4XL" },
-];
 export const PRODUCTS_SCHEMA = {
   name: "product",
   title: "Product",
@@ -39,35 +29,53 @@ export const PRODUCTS_SCHEMA = {
       validation: (Rule: any) => Rule.required(),
     },
     {
-      name: "gender",
-      title: "Gender",
-      type: "array",
-      of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Male", value: "male" },
-          { title: "Female", value: "female" },
-          { title: "Kids", value: "kids" },
-        ],
-        layout: "radio",
-        direction: "horizontal",
-      },
+      name: "brand",
+      title: "Product Brand",
+      type: "reference",
+      to: [{ type: "brand" }],
       validation: (Rule: any) => Rule.required(),
     },
-    { name: "category", title: "Product Category", type: "string" },
     {
-      name: "sizes",
-      title: "Available Sizes",
+      name: "category",
+      title: "Product Category",
+      type: "reference",
+      to: [{ type: "category" }],
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: "colors",
+      title: "Colors",
       type: "array",
       of: [
         {
-          type: "string",
+          type: "object",
+          fields: [
+            {
+              name: "hexCode",
+              title: "Hex Code",
+              type: "string",
+              validation: (Rule: any) =>
+                Rule.regex(/^#[0-9A-Fa-f]{6}$/, {
+                  name: "hex",
+                  invert: false,
+                }).required(),
+            },
+            {
+              name: "colorName",
+              title: "Color Name",
+              type: "string",
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              title: "colorName",
+              subtitle: "hexCode",
+            },
+          },
         },
       ],
-      options: {
-        list: SIZES,
-      },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: any) => Rule.required().min(1),
     },
     {
       name: "currentStock",
