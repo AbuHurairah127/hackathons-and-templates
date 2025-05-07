@@ -56,7 +56,7 @@ const Products = () => {
 
     fetchDataAsync();
   }, []);
-
+  console.log(data);
   return (
     <div className="h-[85vh] lg:min-h-screen max-w-screen flex flex-col space-y-5 justify-center items-center lg:px-24">
       <h4 className="text-[#0000ff] uppercase font-bold text-center">

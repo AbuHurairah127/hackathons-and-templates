@@ -1,23 +1,22 @@
 "use client";
-import React, { useState } from "react";
-import { Button } from "../../../../components/ui/button";
+import { addToCart } from "@/slices/cartSlice";
+import { useAppDispatch } from "@/store/hooks";
+import { errToast } from "@/utils/toasts";
 import { ShoppingCart } from "lucide-react";
-import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { ProductInCart, addToCart } from "@/slices/cartSlice";
-import { errToast, successToast } from "@/utils/toasts";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "../../../../components/ui/button";
 
 const CartArea = ({
   price,
   quantity,
-  sizes,
+  colors,
   otherData,
   availability,
 }: {
   price: number | undefined;
   quantity: number | undefined;
-  sizes: string[] | undefined;
+  colors: { colorName: string; hexCode: string }[] | undefined;
   availability: boolean | undefined;
   otherData: {
     _id: string | undefined;
@@ -64,18 +63,20 @@ const CartArea = ({
         <h4 className="uppercase font-extrabold mt-12 tracking-wider text-sm">
           Select Size
         </h4>
-        {sizes?.map((size) => (
-          <button
-            className={
-              sizeToBuy === size
-                ? "m-2 text-[#666666] font-semibold uppercase p-3 bg-gray-300 rounded-full border-2 border-black w-12 h-12"
-                : "m-2 text-[#666666] font-semibold uppercase  hover:bg-gray-300 rounded-full w-12 h-12 text-center"
-            }
-            key={size}
-            onClick={() => setSizeToBuy(size)}
-          >
-            {size}
-          </button>
+        {colors?.map((color, i) => (
+          <div key={i} className="flex justify-center items-center flex-col">
+            <button
+              className={
+                sizeToBuy === color.hexCode
+                  ? "m-2 text-[#666666] font-semibold uppercase p-3  rounded-full border-2 border-black w-12 h-12"
+                  : "m-2 text-[#666666] font-semibold uppercase   rounded-full w-12 h-12 text-center"
+              }
+              key={i}
+              onClick={() => setSizeToBuy(color.hexCode)}
+              style={{ backgroundColor: color.hexCode }}
+            ></button>
+            <span>{color.colorName}</span>
+          </div>
         ))}
       </div>
       <div className="flex">

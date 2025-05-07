@@ -45,7 +45,7 @@ export async function fetchData(docs_quantity?: number) {
       const query = `*[_type == "product"]{
       _id,
       name,
-      category,
+      category:category->title,
       price,
       "images":images[0],
       gender
@@ -65,13 +65,13 @@ export async function fetchData(docs_quantity?: number) {
   } else {
     try {
       // Define your query
-      const query = `*[_type == "product"]{
-            _id,
-            name,
-            category,
-            price,
-            "images":images[0]
-        }|order(_createdAt desc)[0...$docs_quantity]`;
+      const query = `*[_type == "product" && lower(category->title) in ["airpods", "headphones"]]{
+  _id,
+  name,
+  "category": category->title,
+  price,
+  "images": images[0]
+}`;
 
       // Fetch data using the query and pass the gender as a parameter
       const data = await client.fetch(query, { docs_quantity });
@@ -86,33 +86,56 @@ export async function fetchData(docs_quantity?: number) {
     }
   }
 }
-export async function fetchGenderBasedData(gender: string) {
-  try {
-    // Define your query
-    const query = `*[_type == "product" && $gender in gender]{
-        _id,
-        name,
-        category,
-        price,
-        "images":images[0]
-    }`;
+export async function getProducts({
+  category,
+  brand,
+}: {
+  category?: string;
+  brand?: string;
+}) {
+  // Input normalization (case-insensitive)
+  const categoryFilter = category ? category.toLowerCase() : null;
+  const brandFilter = brand ? brand.toLowerCase() : null;
 
-    // Fetch data using the query and pass the gender as a parameter
-    const data = await client.fetch(query, { gender });
+  // Build the GROQ query dynamically
+  let query = '*[_type == "product"';
 
-    // Process the fetched data
-
-    // Return or further process the data as needed
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle error scenarios
+  // Add category filter if provided
+  if (categoryFilter) {
+    query +=
+      ' && defined(category->title) && lower(category->title) == "' +
+      categoryFilter +
+      '"';
   }
+
+  // Add brand filter if provided
+  if (brandFilter) {
+    query +=
+      ' && defined(brand->title) && lower(brand->title) == "' +
+      brandFilter +
+      '"';
+  }
+
+  query += `]{
+    _id,
+    name,
+    "category": category->title,
+    "brand": brand->title,
+    price,
+    "images": images[0].asset->url
+  }`;
+
+  // Execute the query
+  const products = await client.fetch(query);
+
+  return products;
 }
 
 export const fetchSingleProduct = async (id: string) => {
   try {
-    const query = `*[_type == "product"&& _id == $id]`;
+    const query = `*[_type == "product"&& _id == $id]{
+    _id,name,images,price,"category":category->title,"brand":brand->title, colors,currentStock, availability
+    }`;
 
     // Fetch data using the query
     const data = await client.fetch<ProductsData>(query, { id });
@@ -129,12 +152,13 @@ export const fetchProductInCart = async (id: string[]) => {
       name,
       "images":images[0],
       price,
-      category,
+      "category":category->title,
       "availableQuantity":quantity
     }`;
 
     // Fetch data using the query
     const data = await client.fetch<ProductInCart[]>(query, { id });
+    console.log(data);
     return data;
   } catch (error) {}
 };

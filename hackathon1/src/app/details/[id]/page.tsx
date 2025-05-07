@@ -5,9 +5,12 @@ import { fetchSingleProduct } from "@/sanity/sanity-utils";
 import CartArea from "@/sections/details/cartArea/CartArea";
 import Carousel from "@/sections/details/carousel/Carousel";
 import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
+import ProductReviewForm from "@/sections/details/review/Review";
+import ProductReviewsDisplay from "@/sections/details/review/ReviewShow";
 
 const page = async ({ params }: { params: { id: string } }) => {
   const data = await fetchSingleProduct(params.id);
+  console.log(data);
   return (
     <div className="">
       <div className="px-14 lg:px-24 py-16 min-h-screen bg-[#F2F3F7] flex flex-col lg:flex-row">
@@ -19,7 +22,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           </span>
           <ReduxProvider>
             <CartArea
-              sizes={data?.sizes}
+              colors={data?.colors}
               price={data?.price}
               quantity={data?.currentStock}
               availability={data?.availability}
@@ -46,6 +49,10 @@ const page = async ({ params }: { params: { id: string } }) => {
             <p className="text-justify font-light">{data?.description}</p>
           </div>
         </div>
+      </div>
+      <div>
+        <ProductReviewForm productId={data?._id} />
+        <ProductReviewsDisplay productId={data?._id} />
       </div>
     </div>
   );
