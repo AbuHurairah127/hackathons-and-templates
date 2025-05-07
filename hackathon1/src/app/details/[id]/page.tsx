@@ -9,27 +9,33 @@ import ProductReviewForm from "@/sections/details/review/Review";
 import ProductReviewsDisplay from "@/sections/details/review/ReviewShow";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const data = await fetchSingleProduct(params.id);
+  const resp = fetch(`http://localhost:3000/api/product/${params.id}`, {
+    method: "GET",
+    cache: "no-cache",
+  });
+  const respJson = await (await resp).json();
+  const data = respJson.data;
   console.log(data);
+
   return (
     <div className="">
       <div className="px-14 lg:px-24 py-16 min-h-screen bg-[#F2F3F7] flex flex-col lg:flex-row">
-        <Carousel images={data?.images} />
+        <Carousel images={data?.product.images} />
         <div className="w-full lg:w-1/3 mt-12 lg:mt-0">
-          <h3 className="text-2xl font-semibold">{data?.name}</h3>
+          <h3 className="text-2xl font-semibold">{data?.product.name}</h3>
           <span className="text-lg font-semibold text-[#888888]">
-            {data?.category}
+            {data?.product.category}
           </span>
           <ReduxProvider>
             <CartArea
-              colors={data?.colors}
-              price={data?.price}
-              quantity={data?.currentStock}
-              availability={data?.availability}
+              colors={data?.product.colors}
+              price={data?.product.price}
+              quantity={data?.product.currentStock}
+              availability={data?.product.availability}
               otherData={{
-                name: data?.name,
-                _id: data?._id,
-                image: data?.images[0],
+                name: data?.product.name,
+                _id: data?.product._id,
+                image: data?.product.images[0],
               }}
             />
           </ReduxProvider>
@@ -46,13 +52,15 @@ const page = async ({ params }: { params: { id: string } }) => {
             Product Detail
           </div>
           <div className="col-span-2">
-            <p className="text-justify font-light">{data?.description}</p>
+            <p className="text-justify font-light">
+              {data?.product.description}
+            </p>
           </div>
         </div>
       </div>
       <div>
         <ProductReviewForm productId={data?._id} />
-        <ProductReviewsDisplay productId={data?._id} />
+        <ProductReviewsDisplay productId={data?._id} reviews={data.reviews} />
       </div>
     </div>
   );

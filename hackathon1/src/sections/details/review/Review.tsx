@@ -17,22 +17,32 @@ const ProductReviewForm: React.FC<ReviewFormProps> = ({
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log({ rating, comment, productId });
-    const response = await fetch("/api/add-review", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rating, comment, productId }),
-    });
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.msg || "Failed to submit review");
+    try {
+      e.preventDefault();
+      setLoader(true);
+      console.log({ rating, comment, productId });
+      const response = await fetch("/api/add-review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rating, comment, productId }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.msg || "Failed to submit review");
+      }
+      console.log(response);
+      const respJson = await response.json();
+      console.log(respJson);
+    } catch (error: any) {
+      console.log(error.message);
+    } finally {
+      setRating(0);
+      setComment("");
+      setLoader(false);
     }
-    console.log(response);
-    const respJson = await response.json();
-    console.log(respJson);
   };
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -77,8 +87,9 @@ const ProductReviewForm: React.FC<ReviewFormProps> = ({
         <button
           type="submit"
           className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
+          disabled={loader}
         >
-          Submit Review
+          {loader ? "Loading...." : "Submit Review"}
         </button>
       </form>
     </div>
