@@ -26,7 +26,7 @@ export const POST = async (request: NextRequest) => {
       .where(
         and(
           eq(cart.product_id, req.product_id),
-          eq(cart.size, req.size),
+          eq(cart.color, req.size),
           eq(cart.user_id, userId)
         )
       );
@@ -42,7 +42,7 @@ export const POST = async (request: NextRequest) => {
       .values({
         product_id: req.product_id,
         user_id: userId,
-        size: req.size,
+        color: req.size,
         quantity: req.quantity,
       })
       .returning();

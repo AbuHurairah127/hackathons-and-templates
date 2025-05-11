@@ -7,15 +7,25 @@ import Carousel from "@/sections/details/carousel/Carousel";
 import ReduxProvider from "@/components/reduxProvider/ReduxProvider";
 import ProductReviewForm from "@/sections/details/review/Review";
 import ProductReviewsDisplay from "@/sections/details/review/ReviewShow";
+import { couldStartTrivia } from "typescript";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const resp = fetch(`http://localhost:3000/api/product/${params.id}`, {
-    method: "GET",
-    cache: "no-cache",
-  });
-  const respJson = await (await resp).json();
-  const data = respJson.data;
-  console.log(data);
+  const fetchData = async () => {
+    try {
+      const resp = fetch(`http://localhost:3000/api/product/${params.id}`, {
+        method: "GET",
+        cache: "no-store",
+      });
+      const respJson = await (await resp).json();
+      const data = respJson.data;
+      return data;
+      console.log(data);
+    } catch (e: any) {
+      console.log("e=>", e.message);
+    }
+  };
+
+  const data = await fetchData();
 
   return (
     <div className="">
@@ -59,8 +69,11 @@ const page = async ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <div>
-        <ProductReviewForm productId={data?._id} />
-        <ProductReviewsDisplay productId={data?._id} reviews={data.reviews} />
+        <ProductReviewForm productId={data?.product._id} />
+        <ProductReviewsDisplay
+          productId={data?.product._id}
+          reviews={data.reviews}
+        />
       </div>
     </div>
   );

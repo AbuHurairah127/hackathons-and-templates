@@ -15,6 +15,8 @@ export type ProductCardData = {
   price: number;
   images: any;
   _id: string;
+  totalReviewCount: number;
+  average: number;
 };
 
 const ProductCard = (props: { product: ProductCardData }) => {
@@ -36,6 +38,8 @@ const ProductCard = (props: { product: ProductCardData }) => {
           <p className="text-[#212121] text-[20px]">
             $ {props?.product!.price}
           </p>
+          <p>rating cout={props.product.totalReviewCount}</p>
+          <p>rating avg={Math.round(props.product.average)}</p>
         </CardFooter>
       </Card>
     </Link>

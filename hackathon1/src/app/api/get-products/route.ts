@@ -9,7 +9,7 @@ const querySchema = z.object({
   brand: z.string().optional(),
 });
 
-// Define product interface with average rating
+// Define product interface with average rating and total review count
 interface ProductWithRating {
   _id: string;
   name: string;
@@ -17,7 +17,8 @@ interface ProductWithRating {
   brand: string;
   price: number;
   images: string;
-  averageRating: number;
+  average: number;
+  totalReviewCount: number;
 }
 
 export const GET = async (request: NextRequest) => {
@@ -38,39 +39,52 @@ export const GET = async (request: NextRequest) => {
 
     const { category, brand } = parsed.data;
 
-    // Fetch average ratings from Postgres using raw SQL
+    // Fetch average ratings and review counts from Postgres using raw SQL
     const { rows: reviewData } = await sql`
-      SELECT product_id, AVG(rating) AS avg_rating
+      SELECT product_id, AVG(rating) AS avg_rating, COUNT(*) AS review_count
       FROM reviews
       GROUP BY product_id
     `;
 
-    // Create a map of productId to average rating
-    const ratingMap = new Map<string, number>();
-    reviewData.forEach((row: { product_id: string; avg_rating: number }) => {
-      ratingMap.set(row.product_id, row.avg_rating);
-    });
+    // Create a map of productId to average rating and review count
+    const ratingMap = new Map<
+      string,
+      { average: number; totalReviewCount: number }
+    >();
+    reviewData.forEach(
+      (row: {
+        product_id: string;
+        avg_rating: number;
+        review_count: number;
+      }) => {
+        ratingMap.set(row.product_id, {
+          average: row.avg_rating,
+          totalReviewCount: row.review_count,
+        });
+      }
+    );
     console.log("🚀 ~ GET ~ ratingMap:", ratingMap);
 
     // Fetch products from Sanity
     const products = await getProducts({ category, brand });
 
     console.log("🚀 ~ GET ~ products:", products);
-    // Combine products with ratings and sort
+    // Combine products with ratings and review counts
     const productsWithRatings: ProductWithRating[] = products.map(
       (product) => ({
         ...product,
-        averageRating: ratingMap.get(product._id) || 0,
+        average: ratingMap.get(product._id)?.average || 0,
+        totalReviewCount: ratingMap.get(product._id)?.totalReviewCount || 0,
       })
     );
     console.log("🚀 ~ GET ~ productsWithRatings:", productsWithRatings);
 
     // Sort by average rating (descending), with zero ratings at the end
     productsWithRatings.sort((a, b) => {
-      if (a.averageRating === 0 && b.averageRating === 0) return 0;
-      if (a.averageRating === 0) return 1;
-      if (b.averageRating === 0) return -1;
-      return b.averageRating - a.averageRating;
+      if (a.average === 0 && b.average === 0) return 0;
+      if (a.average === 0) return 1;
+      if (b.average === 0) return -1;
+      return b.average - a.average;
     });
 
     return NextResponse.json({
@@ -81,7 +95,7 @@ export const GET = async (request: NextRequest) => {
     console.error("Error fetching products:", (error as Error).message);
     return NextResponse.json({
       status: 500,
-      error: "Failed to fetch products || " + error.message,
+      error: "Failed to fetch products || " + (error as Error).message,
     });
   }
 };

@@ -18,12 +18,7 @@ const reviewSchema = z.object({
 
 export const POST = async (request: NextRequest) => {
   try {
-    const db = drizzle(sql, {
-      // Explicitly configure connection options to avoid SSL conflicts
-      connection: {
-        ssl: false, // Let Neon handle SSL automatically
-      },
-    });
+    const db = drizzle(sql);
     const req = await request.json();
 
     // Validate input

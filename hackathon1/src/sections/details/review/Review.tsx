@@ -1,5 +1,7 @@
 "use client";
+import { errToast } from "@/utils/toasts";
 import { useState, FormEvent } from "react";
+import toast from "react-hot-toast";
 
 interface ReviewFormProps {
   productId: string;
@@ -38,6 +40,7 @@ const ProductReviewForm: React.FC<ReviewFormProps> = ({
       console.log(respJson);
     } catch (error: any) {
       console.log(error.message);
+      errToast(error.message);
     } finally {
       setRating(0);
       setComment("");

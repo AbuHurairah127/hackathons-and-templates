@@ -50,6 +50,7 @@ export const addToCart = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
+      console.log(data);
       const response = await axios.post("/api/cart", {
         product_id: data._id,
         quantity: data.quantity,

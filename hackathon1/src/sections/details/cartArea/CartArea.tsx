@@ -53,7 +53,7 @@ const CartArea = ({
       return;
     }
     if (!sizeToBuy) {
-      errToast("Please! Select a size to buy.");
+      errToast("Please! Select a color to buy.");
       return;
     }
   };

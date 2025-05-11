@@ -28,7 +28,7 @@ export default function RootLayout({
           {children}
           <Bottom />
           <Footer />
-          <Toaster />
+          <Toaster position="bottom-center" />
         </body>
       </html>
     </ClerkProvider>
