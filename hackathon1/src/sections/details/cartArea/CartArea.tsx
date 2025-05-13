@@ -1,6 +1,6 @@
 "use client";
 import { addToCart } from "@/slices/cartSlice";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { errToast } from "@/utils/toasts";
 import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -32,6 +32,8 @@ const CartArea = ({
       | undefined;
   };
 }) => {
+  const [buynow, setbuynow] = useState(false);
+  const loading = useAppSelector((state) => state.cart.pending);
   const [quantityToBuy, setQuantityToBuy] = useState(1);
   const [sizeToBuy, setSizeToBuy] = useState<string | undefined>(undefined);
   const dispatch = useAppDispatch();
@@ -50,6 +52,11 @@ const CartArea = ({
           router,
         })
       );
+      console.log(buynow);
+      if (buynow) {
+        router.push("/checkout");
+        setbuynow(false);
+      }
       return;
     }
     if (!sizeToBuy) {
@@ -67,12 +74,12 @@ const CartArea = ({
           <div key={i} className="flex justify-center items-center flex-col">
             <button
               className={
-                sizeToBuy === color.hexCode
+                sizeToBuy === color.colorName
                   ? "m-2 text-[#666666] font-semibold uppercase p-3  rounded-full border-2 border-black w-12 h-12"
                   : "m-2 text-[#666666] font-semibold uppercase   rounded-full w-12 h-12 text-center"
               }
               key={i}
-              onClick={() => setSizeToBuy(color.hexCode)}
+              onClick={() => setSizeToBuy(color.colorName)}
               style={{ backgroundColor: color.hexCode }}
             ></button>
             <span>{color.colorName}</span>
@@ -114,11 +121,21 @@ const CartArea = ({
       </div>
       <div className="flex items-center mt-10">
         <Button
-          className="bg-black text-white text-md font-semibold rounded-none py-5 w-fit md:px-12 mr-8 flex"
+          className="bg-black text-white text-md whitespace-nowrap font-semibold rounded-none py-5 w-fit md:px-10 mr-8 flex"
           onClick={() => addToCartHandler()}
         >
           <ShoppingCart className="mr-2" size={18} />
           Add to Cart{" "}
+        </Button>
+        <Button
+          className="bg-black text-white text-md whitespace-nowrap font-semibold rounded-none py-5 w-fit md:px-10 mr-8 flex"
+          onClick={() => {
+            addToCartHandler();
+            setbuynow(true);
+          }}
+          disabled={loading}
+        >
+          {loading ? "Loading" : "Buy now"}
         </Button>
         <span className="font-bold text-lg">$ {price}</span>
       </div>

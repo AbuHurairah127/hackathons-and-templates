@@ -9,5 +9,6 @@ export const config = {
     "/api/cart/:id*",
     "/api/stripe-session",
     "/api/add-review",
+    "/api/payment",
   ],
 };

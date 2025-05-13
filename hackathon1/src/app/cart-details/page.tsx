@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { deleteFromCart } from "@/slices/cartSlice";
 import getStipePromise from "../../lib/stripe";
+import { useRouter } from "next/navigation";
 
 const Cart = () => {
   const quantity = useAppSelector((state) => state.cart.totalQuantity);
@@ -29,6 +30,7 @@ const Cart = () => {
       stripe?.redirectToCheckout({ sessionId: data.session.id });
     }
   };
+  const router = useRouter();
 
   return (
     <>
@@ -80,7 +82,7 @@ const Cart = () => {
                     <Trash2 size={25} className="self-end cursor-pointer" />
                   </button>
                   <span className="font-bold bg-[#412e2e] text-white w-fit p-2.5">
-                    {prod.size}
+                    {prod.color}
                   </span>
                 </div>
               </div>
@@ -99,7 +101,9 @@ const Cart = () => {
               </div>
               <Button
                 className="bg-black text-white text-md font-semibold rounded-none py-8 md:py-5 md:px-12 mr-8 flex w-full"
-                onClick={handleCheckout}
+                onClick={() => {
+                  router.push("/checkout");
+                }}
               >
                 Proceed to Checkout
               </Button>

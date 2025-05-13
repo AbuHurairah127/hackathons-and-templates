@@ -11,6 +11,7 @@ export interface ProductInCart {
   product_id: string;
   quantity: number;
   size: string;
+  color: string;
   name: string;
   price: number;
   category: string;
@@ -117,7 +118,13 @@ export const deleteFromCart = createAsyncThunk(
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    clearCart: (state) => {
+      state.product = [];
+      state.subTotal = 0;
+      state.totalQuantity = 0;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(addToCart.pending, (state) => {
       state.pending = true;
@@ -165,5 +172,5 @@ export const cartSlice = createSlice({
   },
 });
 export const selectCount = (state: RootState) => state.cart;
-
+export const { clearCart } = cartSlice.actions;
 export default cartSlice;
